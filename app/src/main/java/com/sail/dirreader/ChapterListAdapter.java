@@ -1,6 +1,8 @@
 package com.sail.dirreader;
 
 import android.content.Context;
+import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.ChapterViewHolder> {
 
-    private List<ChapterModel> chapterDataSet;
+    private ArrayList<ChapterModel> chapterDataSet;
     private LayoutInflater mInflater;
     Context mContext;
     public String mBookTitle;
-    public Integer mChapterNumber;
+    public String mChapterName;
 
-    public ChapterListAdapter(Context context, List<ChapterModel> chapterModelList) {
+    public ChapterListAdapter(Context context, ArrayList<ChapterModel> chapterModelList) {
 
         mInflater = LayoutInflater.from(context);
         mContext = context;
@@ -40,8 +43,8 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder chapterViewHolder, int i) {
 
-        mChapterNumber = chapterDataSet.get(i).getaChapter();
-        chapterViewHolder.mTextView.setText(mChapterNumber);
+        mChapterName = chapterDataSet.get(i).getaChapter();
+        chapterViewHolder.mTextView.setText(mChapterName);
     }
 
     @Override
@@ -51,15 +54,16 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
 
     public static class ChapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Context nContext;
-        List<ChapterModel> chapterList;
+        ArrayList<ChapterModel> chapterList;
         public TextView mTextView;
 
-        public ChapterViewHolder(Context context, List<ChapterModel> chapterModelList, View v) {
+        public ChapterViewHolder(Context context, ArrayList<ChapterModel> chapterModelList, View v) {
             super(v);
             nContext = context;
             chapterList = chapterModelList;
-            mTextView = v.findViewById(R.id.book_name);
+            mTextView = v.findViewById(R.id.chapter_number);
 
+            v.setOnClickListener(this);
         }
 
         @Override

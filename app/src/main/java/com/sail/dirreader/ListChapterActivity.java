@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class ListChapterActivity extends AppCompatActivity {
 
     Integer chapterNumber;
     String bookTitle;
+    String nameChapter;
 
 
     @Override
@@ -32,17 +34,17 @@ public class ListChapterActivity extends AppCompatActivity {
 //        Integer bookPosition = intent.getIntExtra("bookPosition", 1);
         bookTitle = intent.getStringExtra("bookName");
 
-        Log.e("bookNamei ", bookTitle);
+//        Log.e("bookNamei ", bookTitle);
 
 
-//        getChapters();
+        getChapters(bookTitle);
 
     }
 
     public void getChapters(String mBookTitle) {
         context = ListChapterActivity.this;
         listChapterView = findViewById(R.id.chapter_list_view);
-        List<ChapterModel> allChapters = getChapterList(context, mBookTitle);
+        ArrayList<ChapterModel> allChapters = getChapterList(context, mBookTitle);
 
         chapterListAdapter = new ChapterListAdapter(context, allChapters);
         listChapterView.setLayoutManager(new LinearLayoutManager(context));
@@ -50,13 +52,27 @@ public class ListChapterActivity extends AppCompatActivity {
 
     }
 
-    public List<ChapterModel> getChapterList(final Context context, String mBookTitle) {
+    public ArrayList<ChapterModel> getChapterList(final Context context, String mBookTitle) {
 
-        final List<ChapterModel> tempChapterList = new ArrayList<>();
-
+        final ArrayList<ChapterModel> tempChapterList = new ArrayList<>();
 
         String path = Environment.getExternalStorageDirectory().toString() + "/AudioBooks/" + mBookTitle;
 
+        Log.d("Files", "Path: " + path);
+        File directory = new File(path);
+        File[] files = directory.listFiles();
+        Log.d("Files", "Size: " + files.length);
+
+        for (int i = 0; i < files.length; i++) {
+
+            nameChapter = files[i].getName();
+//            Log.d("Files", "FileName:" + files[i].getName());
+            ChapterModel chapterModel = new ChapterModel();
+
+            chapterModel.setaChapter(nameChapter);
+
+            tempChapterList.add(chapterModel);
+        }
 
         return tempChapterList;
     }

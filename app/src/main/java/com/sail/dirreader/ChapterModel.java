@@ -2,15 +2,12 @@ package com.sail.dirreader;
 
 public class ChapterModel {
 
-    String aTitle;
-    Integer aChapter;
-//    String aAuthor;
+    String aChapter;
 
-    public Integer getaChapter() {
-        return aChapter;
+    public String getaChapter() { return aChapter;
     }
 
-    public void setaChapter(String aTitle) {
+    public void setaChapter(String aChapter) {
         this.aChapter = aChapter;
     }
 

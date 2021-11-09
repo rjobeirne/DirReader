@@ -63,14 +63,12 @@ public class ListBookActivity extends AppCompatActivity {
 
         final ArrayList<BookModel> tempBookList = new ArrayList<>();
 
-
         String path = Environment.getExternalStorageDirectory().toString() + "/AudioBooks";
+
         Log.d("Files", "Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
         Log.d("Files", "Size: " + files.length);
-
-//        ArrayList listBooks = new ArrayList<>();
 
         for (int i = 0; i < files.length; i++) {
             Log.d("Files", "FileName:" + files[i].getName());
@@ -82,7 +80,7 @@ public class ListBookActivity extends AppCompatActivity {
 
             tempBookList.add(bookModel);
         }
-        Log.e("List", String.valueOf(tempBookList));
+        Log.e("*tempBookList", String.valueOf(tempBookList));
 
         return tempBookList;
     }
