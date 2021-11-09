@@ -2,6 +2,9 @@ package com.sail.dirreader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Element;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +25,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     private List<BookModel> bookDataSet;
     private LayoutInflater mInflater;
     Context mContext;
+    public String mBookTitle;
 
     public BookListAdapter(Context context, List<BookModel> bookModelList) {
 
@@ -41,7 +47,9 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder bookViewHolder, int i) {
-        bookViewHolder.mTextView.setText(bookDataSet.get(i).getaTitle());
+
+        mBookTitle = bookDataSet.get(i).getaTitle();
+        bookViewHolder.mTextView.setText(mBookTitle);
     }
 
     @Override
@@ -51,8 +59,11 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
     public static class BookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Context nContext;
-        List<BookModel> bookList;
+        public List<BookModel> bookList;
         public TextView mTextView;
+        String bookTitle;
+
+        BookModel bookModel = new BookModel();
 
         public BookViewHolder(Context context, List<BookModel> bookModelList, View v) {
             super(v);
@@ -60,10 +71,19 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             bookList = bookModelList;
             mTextView = v.findViewById(R.id.book_name);
 
+            v.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            // opening a new intent for chapter activity
+
+            int itemPosition = getAdapterPosition();
+
+            Intent intent = new Intent(nContext, ListChapterActivity.class);
+            intent.putExtra("bookPosition", itemPosition);
+
+            nContext.startActivity(intent);
 
         }
     }
