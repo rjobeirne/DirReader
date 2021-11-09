@@ -20,6 +20,7 @@ public class ListChapterActivity extends AppCompatActivity {
     Context context;
 
     Integer chapterNumber;
+    String bookTitle;
 
 
     @Override
@@ -28,9 +29,10 @@ public class ListChapterActivity extends AppCompatActivity {
         setContentView(R.layout.chapter_list);
 
         Intent intent = getIntent();
-        Integer bookPosition = intent.getIntExtra("bookPosition", 1);
+//        Integer bookPosition = intent.getIntExtra("bookPosition", 1);
+        bookTitle = intent.getStringExtra("bookName");
 
-        Log.e("bookPositioni ", String.valueOf(bookPosition));
+        Log.e("bookNamei ", bookTitle);
 
 
 //        getChapters();

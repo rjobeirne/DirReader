@@ -22,12 +22,12 @@ import java.util.List;
 
 public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookViewHolder> {
 
-    private List<BookModel> bookDataSet;
+    private ArrayList<BookModel> bookDataSet;
     private LayoutInflater mInflater;
     Context mContext;
     public String mBookTitle;
 
-    public BookListAdapter(Context context, List<BookModel> bookModelList) {
+    public BookListAdapter(Context context, ArrayList<BookModel> bookModelList) {
 
         mInflater = LayoutInflater.from(context);
         mContext = context;
@@ -59,7 +59,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
     public static class BookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Context nContext;
-        public List<BookModel> bookList;
+        public ArrayList<BookModel> bookList;
         public TextView mTextView;
         String bookTitle;
 
@@ -68,7 +68,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         public BookViewHolder(Context context, List<BookModel> bookModelList, View v) {
             super(v);
             nContext = context;
-            bookList = bookModelList;
+            bookList = (ArrayList<BookModel>) bookModelList;
             mTextView = v.findViewById(R.id.book_name);
 
             v.setOnClickListener(this);
@@ -80,8 +80,11 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
             int itemPosition = getAdapterPosition();
 
+            String bookName = bookList.get(itemPosition).getaTitle();
+            Log.e("book title", bookName);
+
             Intent intent = new Intent(nContext, ListChapterActivity.class);
-            intent.putExtra("bookPosition", itemPosition);
+            intent.putExtra("bookName", bookName);
 
             nContext.startActivity(intent);
 

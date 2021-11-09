@@ -51,7 +51,7 @@ public class ListBookActivity extends AppCompatActivity {
     public void getBooks() {
         context = ListBookActivity.this;
         listBookView = findViewById(R.id.book_list_view);
-        List<BookModel> allBookDirectories = getBookList(context);
+        ArrayList<BookModel> allBookDirectories = getBookList(context);
 
         bookListAdapter = new BookListAdapter(context, allBookDirectories);
         listBookView.setLayoutManager(new LinearLayoutManager(context));
@@ -59,9 +59,9 @@ public class ListBookActivity extends AppCompatActivity {
     }
 
 
-    public List<BookModel> getBookList(final Context context) {
+    public ArrayList<BookModel> getBookList(final Context context) {
 
-        final List<BookModel> tempBookList = new ArrayList<>();
+        final ArrayList<BookModel> tempBookList = new ArrayList<>();
 
 
         String path = Environment.getExternalStorageDirectory().toString() + "/AudioBooks";
