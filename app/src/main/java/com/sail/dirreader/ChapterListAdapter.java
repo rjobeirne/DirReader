@@ -16,7 +16,6 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     private ArrayList<ChapterModel> chapterDataSet;
     private LayoutInflater mInflater;
     Context mContext;
-    public String mBookTitle;
     public String mChapterName, mChapterDuration;
 
     public ChapterListAdapter(Context context, ArrayList<ChapterModel> chapterModelList) {

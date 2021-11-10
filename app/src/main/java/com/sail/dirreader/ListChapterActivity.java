@@ -6,6 +6,7 @@ import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +26,8 @@ public class ListChapterActivity extends AppCompatActivity {
     String bookTitle;
     String nameChapter;
 
+    TextView mBookTitleTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,9 @@ public class ListChapterActivity extends AppCompatActivity {
         bookTitle = intent.getStringExtra("bookName");
 
 //        Log.e("bookNamei ", bookTitle);
+
+        mBookTitleTextView = findViewById(R.id.book_name);
+        mBookTitleTextView.setText(bookTitle);
 
 
         getChapters(bookTitle);
