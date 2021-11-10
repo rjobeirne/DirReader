@@ -11,14 +11,21 @@
         android:id="@+id/text_container"
         android:layout_width="match_parent"
         android:layout_height="88dp"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/chapter_number"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="88dp"
             android:textSize="18sp"
             android:text="Title" />
+
+        <TextView
+            android:id="@+id/chapter_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="88dp"
+            android:text="Title"
+            android:textSize="18sp" />
 
     </LinearLayout>
 

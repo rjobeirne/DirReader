@@ -2,6 +2,7 @@ package com.sail.dirreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -65,13 +66,40 @@ public class ListChapterActivity extends AppCompatActivity {
 
         for (int i = 0; i < files.length; i++) {
 
+
             nameChapter = files[i].getName();
+            String duration;
+            String out;
+
+            String fileName = path + "/" + nameChapter;
+            Log.e("*fileName",fileName);
+
+
+            if(nameChapter.endsWith(".mp3")) {
 //            Log.d("Files", "FileName:" + files[i].getName());
-            ChapterModel chapterModel = new ChapterModel();
 
-            chapterModel.setaChapter(nameChapter);
+                // load data file
+                MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
+                metaRetriever.setDataSource(fileName);
 
-            tempChapterList.add(chapterModel);
+                // get mp3 info
+                duration = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                long dur = Long.parseLong(duration);
+
+                // convert duration to minute:seconds
+                String seconds = String.valueOf((dur % 60000) / 1000);
+                String minutes = String.valueOf(dur / 60000);
+                out = minutes + ":" + seconds;
+
+
+                ChapterModel chapterModel = new ChapterModel();
+                chapterModel.setaChapter(nameChapter);
+                chapterModel.setaDuration(out);
+                tempChapterList.add(chapterModel);
+
+                // close object
+                metaRetriever.release();
+            }
         }
 
         return tempChapterList;

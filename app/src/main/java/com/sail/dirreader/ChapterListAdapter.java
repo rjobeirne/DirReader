@@ -1,8 +1,6 @@
 package com.sail.dirreader;
 
 import android.content.Context;
-import android.util.Log;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.ChapterViewHolder> {
 
@@ -20,7 +17,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     private LayoutInflater mInflater;
     Context mContext;
     public String mBookTitle;
-    public String mChapterName;
+    public String mChapterName, mChapterDuration;
 
     public ChapterListAdapter(Context context, ArrayList<ChapterModel> chapterModelList) {
 
@@ -44,7 +41,10 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     public void onBindViewHolder(@NonNull ChapterViewHolder chapterViewHolder, int i) {
 
         mChapterName = chapterDataSet.get(i).getaChapter();
-        chapterViewHolder.mTextView.setText(mChapterName);
+        mChapterDuration = chapterDataSet.get(i).getaDuration();
+
+        chapterViewHolder.mChapterNoTextView.setText("Chapter " + (i + 1));
+        chapterViewHolder.mChapterDurationTextView.setText(mChapterDuration);
     }
 
     @Override
@@ -55,13 +55,14 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     public static class ChapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Context nContext;
         ArrayList<ChapterModel> chapterList;
-        public TextView mTextView;
+        public TextView mChapterNoTextView, mChapterDurationTextView;
 
         public ChapterViewHolder(Context context, ArrayList<ChapterModel> chapterModelList, View v) {
             super(v);
             nContext = context;
             chapterList = chapterModelList;
-            mTextView = v.findViewById(R.id.chapter_number);
+            mChapterNoTextView = v.findViewById(R.id.chapter_number);
+            mChapterDurationTextView = v.findViewById(R.id.chapter_duration);
 
             v.setOnClickListener(this);
         }
