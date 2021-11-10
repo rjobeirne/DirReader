@@ -74,7 +74,6 @@ public class ListChapterActivity extends AppCompatActivity {
 
         for (int i = 0; i < files.length; i++) {
 
-
             nameChapter = files[i].getName();
             String duration;
             String out;

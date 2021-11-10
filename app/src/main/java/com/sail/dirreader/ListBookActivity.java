@@ -74,11 +74,14 @@ public class ListBookActivity extends AppCompatActivity {
             Log.d("Files", "FileName:" + files[i].getName());
             nameBook = files[i].getName();
 
-            BookModel bookModel = new BookModel();
+            if(files[i].isDirectory()) {
 
-            bookModel.setaTitle(nameBook);
+                BookModel bookModel = new BookModel();
 
-            tempBookList.add(bookModel);
+                bookModel.setaTitle(nameBook);
+
+                tempBookList.add(bookModel);
+            }
         }
         Log.e("*tempBookList", String.valueOf(tempBookList));
 

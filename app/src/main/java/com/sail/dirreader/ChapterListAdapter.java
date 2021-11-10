@@ -42,7 +42,12 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         mChapterName = chapterDataSet.get(i).getaChapter();
         mChapterDuration = chapterDataSet.get(i).getaDuration();
 
-        chapterViewHolder.mChapterNoTextView.setText("Chapter " + (i + 1));
+        if(mChapterName.contains("-")){
+            mChapterName = mChapterName.substring(0, mChapterName.indexOf("."));
+            chapterViewHolder.mChapterNoTextView.setText(mChapterName);
+        } else {
+            chapterViewHolder.mChapterNoTextView.setText("Chapter " + (i + 1));
+        }
         chapterViewHolder.mChapterDurationTextView.setText(mChapterDuration);
     }
 
