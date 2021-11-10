@@ -25,6 +25,8 @@ public class ListChapterActivity extends AppCompatActivity {
     Integer chapterNumber;
     String bookTitle;
     String nameChapter;
+    long dur, secs, mins;
+    String seconds, minutes;
 
     TextView mBookTitleTextView;
 
@@ -90,13 +92,25 @@ public class ListChapterActivity extends AppCompatActivity {
 
                 // get mp3 info
                 duration = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-                long dur = Long.parseLong(duration);
+                dur = Long.parseLong(duration);
 
                 // convert duration to minute:seconds
-                String seconds = String.valueOf((dur % 60000) / 1000);
-                String minutes = String.valueOf(dur / 60000);
-                out = minutes + ":" + seconds;
+                secs = (dur % 60000) / 1000;
+                mins = dur / 60000;
 
+                if ( secs < 10 ) {
+                    seconds = "0" + String.valueOf(secs);
+                } else {
+                    seconds = String.valueOf(secs);
+                }
+
+                if ( mins < 10 ) {
+                    minutes = "0" + String.valueOf(mins);
+                } else {
+                    minutes = String.valueOf(mins);
+                }
+
+                out = minutes + ":" + seconds;
 
                 ChapterModel chapterModel = new ChapterModel();
                 chapterModel.setaChapter(nameChapter);
