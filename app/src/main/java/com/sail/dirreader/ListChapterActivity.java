@@ -79,7 +79,7 @@ public class ListChapterActivity extends AppCompatActivity {
             String out;
 
             String fileName = path + "/" + nameChapter;
-            Log.e("*fileName",fileName);
+//            Log.e("*fileName",fileName);
 
 
             if(nameChapter.endsWith(".mp3")) {
@@ -112,15 +112,16 @@ public class ListChapterActivity extends AppCompatActivity {
                 out = minutes + ":" + seconds;
 
                 ChapterModel chapterModel = new ChapterModel();
+                chapterModel.setaTrackNumber(i);
                 chapterModel.setaChapter(nameChapter);
                 chapterModel.setaDuration(out);
+                chapterModel.setaRawDuration(duration);
                 tempChapterList.add(chapterModel);
 
                 // close object
                 metaRetriever.release();
             }
         }
-
         return tempChapterList;
     }
 
