@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListChapterActivity extends AppCompatActivity {
 
@@ -65,10 +64,10 @@ public class ListChapterActivity extends AppCompatActivity {
 
         final ArrayList<ChapterModel> tempChapterList = new ArrayList<>();
 
-        String path = Environment.getExternalStorageDirectory().toString() + "/AudioBooks/" + mBookTitle;
+        String dirPath = Environment.getExternalStorageDirectory().toString() + "/AudioBooks/" + mBookTitle;
 
-        Log.d("Files", "Path: " + path);
-        File directory = new File(path);
+        Log.d("Files", "Path: " + dirPath);
+        File directory = new File(dirPath);
         File[] files = directory.listFiles();
         Log.d("Files", "Size: " + files.length);
 
@@ -78,7 +77,7 @@ public class ListChapterActivity extends AppCompatActivity {
             String duration;
             String out;
 
-            String fileName = path + "/" + nameChapter;
+            String filePath = dirPath + "/" + nameChapter;
 //            Log.e("*fileName",fileName);
 
 
@@ -87,7 +86,7 @@ public class ListChapterActivity extends AppCompatActivity {
 
                 // load data file
                 MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
-                metaRetriever.setDataSource(fileName);
+                metaRetriever.setDataSource(filePath);
 
                 // get mp3 info
                 duration = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
@@ -116,7 +115,7 @@ public class ListChapterActivity extends AppCompatActivity {
                 chapterModel.setaChapter(nameChapter);
                 chapterModel.setaDuration(out);
                 chapterModel.setaRawDuration(duration);
-                chapterModel.setaPath(path);
+                chapterModel.setaPath(filePath);
                 tempChapterList.add(chapterModel);
 
                 // close object

@@ -51,7 +51,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         mChapterDuration = chapterDataSet.get(i).getaDuration();
         trackNumber = chapterDataSet.get(i).getaTrackNumber();
         duration = chapterDataSet.get(i).getaRawDuration();
-        path = chapterDataSet.get(0).getaPath();
+        path = chapterDataSet.get(i).getaPath();
 
         if(mChapterName.contains("-")){
             mChapterName = mChapterName.substring(0, mChapterName.indexOf("."));
@@ -90,12 +90,11 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
 
             int itemPosition = getAdapterPosition();
 
-            ArrayList<Integer> playList;
+            ArrayList<String> playList;
             playList = createPlayList(itemPosition);
 
             Intent intent = new Intent(nContext, AudioPlayerActivity.class);
-            intent.putExtra("playlist", playList);
-            intent.putExtra("filepath", path);
+            intent.putExtra("filepath", playList);
             nContext.startActivity(intent);
         }
     }
@@ -106,23 +105,25 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         Integer playChapters = 1;
         Integer lastTrack = startTrack;
         ArrayList<Integer> playList = new ArrayList<Integer>();
+        ArrayList<String> filePaths = new ArrayList<String>();
 
         playList.add(startTrack);
+        filePaths.add(chapterDataSet.get(startTrack).getaPath());
 
         while(playTime < minTime) {
             lastTrack = lastTrack + 1;
             if(lastTrack < chapterDataSet.size()) {
                 playTime = playTime + Integer.valueOf(chapterDataSet.get(lastTrack).getaRawDuration());
                 playChapters = playChapters + 1;
-                playList.add(lastTrack);
+                filePaths.add(chapterDataSet.get(lastTrack).getaPath());
             } else {
                 break;
             }
         }
 
-            Log.e("playList1 :", String.valueOf(playList));
+            Log.e("playList1 :", String.valueOf(filePaths));
 
-        return playList;
+        return filePaths;
     }
 
 }

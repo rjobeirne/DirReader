@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,6 +25,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
     AudioModel audio;
     SeekBar seekBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +33,14 @@ public class AudioPlayerActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String path = intent.getStringExtra("filepath");
-        ArrayList playList = intent.getIntegerArrayListExtra("playlist");
-        Log.e("player-playlist :", String.valueOf(playList));
+        ArrayList<String> playList = intent.getStringArrayListExtra("filepath");
+        Log.e("player-path :", String.valueOf(playList));
+
+        for (int index = 0; index < playList.size(); index++) {
+            String playTrack = (String) playList.get(index);
+            Log.e("play-track", playTrack);
+        }
+
 
         audio = (AudioModel) intent.getSerializableExtra("playList");
 
