@@ -1,6 +1,7 @@
 package com.sail.dirreader;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     public  Integer minTime = 15 * 60 * 1000;
     Integer trackNumber;
     String duration;
+    public String path;
 
     public ChapterListAdapter(Context context, ArrayList<ChapterModel> chapterModelList) {
 
@@ -49,6 +51,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         mChapterDuration = chapterDataSet.get(i).getaDuration();
         trackNumber = chapterDataSet.get(i).getaTrackNumber();
         duration = chapterDataSet.get(i).getaRawDuration();
+        path = chapterDataSet.get(0).getaPath();
 
         if(mChapterName.contains("-")){
             mChapterName = mChapterName.substring(0, mChapterName.indexOf("."));
@@ -87,8 +90,13 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
 
             int itemPosition = getAdapterPosition();
 
-            ArrayList<Integer> playList = new ArrayList<Integer>();
+            ArrayList<Integer> playList;
             playList = createPlayList(itemPosition);
+
+            Intent intent = new Intent(nContext, AudioPlayerActivity.class);
+            intent.putExtra("playlist", playList);
+            intent.putExtra("filepath", path);
+            nContext.startActivity(intent);
         }
     }
 
@@ -112,11 +120,10 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
             }
         }
 
-//            Log.e("playList1 :", String.valueOf(playList));
+            Log.e("playList1 :", String.valueOf(playList));
 
         return playList;
     }
-
 
 }
 

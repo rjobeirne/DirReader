@@ -6,12 +6,18 @@ public class ChapterModel {
     String aChapter;
     String aDuration;
     String aRawDuration;
+    String aPath;
+
+    public String getaPath() { return aPath; }
+
+    public void setaPath(String aPath) { this.aPath = aPath; }
 
     public Integer getaTrackNumber() { return aTrackNumber; }
 
     public void setaTrackNumber(Integer aTrackNumber) {
         this.aTrackNumber = aTrackNumber;
     }
+
     public String getaChapter() { return aChapter; }
 
     public void setaChapter(String aChapter) {

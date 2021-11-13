@@ -116,6 +116,7 @@ public class ListChapterActivity extends AppCompatActivity {
                 chapterModel.setaChapter(nameChapter);
                 chapterModel.setaDuration(out);
                 chapterModel.setaRawDuration(duration);
+                chapterModel.setaPath(path);
                 tempChapterList.add(chapterModel);
 
                 // close object
