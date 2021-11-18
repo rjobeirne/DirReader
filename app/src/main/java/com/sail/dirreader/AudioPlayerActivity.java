@@ -42,6 +42,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
 
         mediaPlayer = MediaPlayer.create(this, Uri.parse(playList.get(0)));
         mediaPlayer.start();
+        enableSeekBar();
 
         if (playList.size() > 1) playNext();
             index = 0;
@@ -123,12 +124,13 @@ public class AudioPlayerActivity extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                mediaPlayer.reset();
-                mediaPlayer = MediaPlayer.create(AudioPlayerActivity.this, Uri.parse(playList.get(++index)));
-                mediaPlayer.start();
-                if (playList.size() > index+1) {
-                    playNext();
-                }
+            mediaPlayer.reset();
+            mediaPlayer = MediaPlayer.create(AudioPlayerActivity.this, Uri.parse(playList.get(++index)));
+            mediaPlayer.start();
+            enableSeekBar();
+            if (playList.size() > index+1) {
+                playNext();
+            }
             }
         },mediaPlayer.getDuration()+100);
     }
