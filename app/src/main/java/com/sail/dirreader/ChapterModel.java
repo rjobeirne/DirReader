@@ -5,8 +5,9 @@ public class ChapterModel {
     Integer aTrackNumber;
     String aChapter;
     String aDuration;
-    String aRawDuration;
+    Long aRawDuration;
     String aPath;
+    String aTitle;
 
     public String getaPath() { return aPath; }
 
@@ -24,13 +25,21 @@ public class ChapterModel {
         this.aChapter = aChapter;
     }
 
-    public String getaRawDuration() { return aRawDuration; }
+    public Long getaRawDuration() { return aRawDuration; }
 
-    public void setaRawDuration(String aRawDuration) { this.aRawDuration = aRawDuration; }
+    public void setaRawDuration(Long aRawDuration) { this.aRawDuration = aRawDuration; }
 
     public String getaDuration() { return aDuration; }
 
     public void setaDuration(String aDuration) { this.aDuration = aDuration; }
+
+    public String getaTitle() {
+        return aTitle;
+    }
+
+    public void setaTitle(String aTitle) {
+        this.aTitle = aTitle;
+    }
 
 //    public String getaAuthor() {
 //        return aAuthor;

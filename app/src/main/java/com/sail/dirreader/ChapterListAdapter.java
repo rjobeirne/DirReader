@@ -21,10 +21,13 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     Context mContext;
     public String mChapterName, mChapterDuration;
 
-    public  Integer minTime = 15 * 60 * 1000;
-    Integer trackNumber;
-    String duration;
-    public String path;
+    public  int minTime = 15 * 60 * 1000;
+    Integer trackNumber, startTrack;
+    Long duration;
+    public String path, bookTitle;
+    public ArrayList<String> paths = new ArrayList<String>();
+    public ArrayList<Long> durations = new ArrayList<Long>();
+
 
     public ChapterListAdapter(Context context, ArrayList<ChapterModel> chapterModelList) {
 
@@ -52,6 +55,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         trackNumber = chapterDataSet.get(i).getaTrackNumber();
         duration = chapterDataSet.get(i).getaRawDuration();
         path = chapterDataSet.get(i).getaPath();
+        bookTitle = chapterDataSet.get(i).getaTitle();
 
         if(mChapterName.contains("-")){
             mChapterName = mChapterName.substring(0, mChapterName.indexOf("."));
@@ -60,6 +64,10 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
             chapterViewHolder.mChapterNoTextView.setText("Chapter " + (i + 1));
         }
         chapterViewHolder.mChapterDurationTextView.setText(mChapterDuration);
+
+        paths.add(path);
+        durations.add(duration);
+
     }
 
     @Override
@@ -90,41 +98,48 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
 
             int itemPosition = getAdapterPosition();
 
-            ArrayList<String> playList;
-            playList = createPlayList(itemPosition);
+            ArrayList<ChapterModel> playList;
+//            playList = createPlayList(itemPosition);
+            startTrack = itemPosition;
+
+            Log.e("itemPosition ", String.valueOf(itemPosition));
 
             Intent intent = new Intent(nContext, AudioPlayerActivity.class);
-            intent.putExtra("filepath", playList);
+//            intent.putExtra("filepath", playList);
+            intent.putExtra("bookTitle", bookTitle);
+            intent.putExtra("position", itemPosition);
+            intent.putStringArrayListExtra("paths", paths);
+            intent.putExtra("durations", durations);
             nContext.startActivity(intent);
         }
     }
 
-    public ArrayList createPlayList(Integer startTrack) {
-
-        Integer playTime = Integer.valueOf(chapterDataSet.get(startTrack).getaRawDuration());
-        Integer playChapters = 1;
-        Integer lastTrack = startTrack;
-        ArrayList<Integer> playList = new ArrayList<Integer>();
-        ArrayList<String> filePaths = new ArrayList<String>();
-
-        playList.add(startTrack);
-        filePaths.add(chapterDataSet.get(startTrack).getaPath());
-
-        while(playTime < minTime) {
-            lastTrack = lastTrack + 1;
-            if(lastTrack < chapterDataSet.size()) {
-                playTime = playTime + Integer.valueOf(chapterDataSet.get(lastTrack).getaRawDuration());
-                playChapters = playChapters + 1;
-                filePaths.add(chapterDataSet.get(lastTrack).getaPath());
-            } else {
-                break;
-            }
-        }
-
-            Log.e("playList1 :", String.valueOf(filePaths));
-
-        return filePaths;
-    }
+//    public ArrayList createPlayList(Integer startTrack) {
+//
+//        Long playTime = chapterDataSet.get(startTrack).getaRawDuration();
+//        Integer playChapters = 1;
+//        Integer lastTrack = startTrack;
+//        ArrayList<Integer> playList = new ArrayList<Integer>();
+//        ArrayList<String> filePaths = new ArrayList<String>();
+//
+//        playList.add(startTrack);
+//        filePaths.add(chapterDataSet.get(startTrack).getaPath());
+//
+//        while(playTime < minTime) {
+//            lastTrack = lastTrack + 1;
+//            if(lastTrack < chapterDataSet.size()) {
+//                playTime = playTime + chapterDataSet.get(lastTrack).getaRawDuration();
+//                playChapters = playChapters + 1;
+//                filePaths.add(chapterDataSet.get(lastTrack).getaPath());
+//            } else {
+//                break;
+//            }
+//        }
+//
+//            Log.e("playList1 :", String.valueOf(filePaths));
+//
+//        return filePaths;
+//    }
 
 }
 

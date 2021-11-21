@@ -20,14 +20,20 @@ import java.util.TimerTask;
 
 public class AudioPlayerActivity extends AppCompatActivity {
 
+    ArrayList chapterList;
+    ArrayList<Long> durations;
     MediaPlayer mediaPlayer;
     SeekBar seekBar;
-    String mTrack;
-    Integer index, maxIndex;
-    Integer currentIndex = 0;
+    String mTrack, bookTitle;
+    int index, maxIndex;
+    int itemPosition;
+    int currentIndex = 0;
     ArrayList<String> playList;
     Timer timer;
     Boolean flagPaused = false;
+    int startTrack;
+    public int minTime = 15 * 60 * 1000;
+    ArrayList<String> playListPaths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +42,17 @@ public class AudioPlayerActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         timer = new Timer();
+        chapterList =new ArrayList<String>();
 
-        playList = intent.getStringArrayListExtra("filepath");
-        Log.e("player-path :", String.valueOf(playList));
+        bookTitle = intent.getStringExtra("bookTitle");
+        itemPosition = intent.getIntExtra("position", 0);
+        chapterList = intent.getStringArrayListExtra("paths");
+        durations =(ArrayList<Long>) intent.getSerializableExtra("durations");
 
-        mediaPlayer = MediaPlayer.create(this, Uri.parse(playList.get(0)));
+//        playList = intent.getStringArrayListExtra("filepath");
+
+
+//        mediaPlayer = MediaPlayer.create(this, Uri.parse(playList.get(0)));
 //        mediaPlayer.start();
 //        enableSeekBar();
 
@@ -62,7 +74,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
                     if (flagPaused) {
                         mediaPlayer.start();
                     } else {
-                        playChapter(playList);
+                        playChapter();
                     }
                     flagPaused = false;
                 } else {
@@ -76,105 +88,90 @@ public class AudioPlayerActivity extends AppCompatActivity {
         skipToPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int skip = -1;
+                mediaPlayer.stop();
+                playNext(skip);
             }
         });
 
+        skipToNext.setOnClickListener(v -> {
+            int skip = 1;
+            mediaPlayer.stop();
+            playNext(skip);
+        });
 
-
-//        if(audio!=null){
-//            audioName.setText(audio.getaName());
-//        }else{
-//            audioName.setText("Piano.wav");
-//        }
-//
-//
-//        playBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mMediaPlayer.start();
-//                startPlaying(playList);
-//            }
-//        });
-//
-//        viewAllMediaBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                stopPlaying();
-//                startActivity(new Intent(getApplicationContext(),MusicListActivity.class));
-//                //finish();
-//            }
-//        });
-//
-//
-
+        createPlayList(itemPosition);
     }  // end of onCreate
-//
-//    public void playTrack(String mTrack) {
-//            final MediaPlayer mediaPlayer = MediaPlayer.create(this, Uri.parse(mTrack));
-//
-//
-//    }
-//
-//    public void startPlaying(String playTrack){
-//        if(mediaPlayer!=null && mediaPlayer.isPlaying()){
-//            mediaPlayer.stop();
-//        }
-//
-//        if(audio!=null){
-//            Toast.makeText(getApplicationContext(),"Playing from device; "+audio.getaPath(), Toast.LENGTH_SHORT).show();
-//               mediaPlayer = MediaPlayer.create(AudioPlayerActivity.this, Uri.parse(playTrack));
-//               mediaPlayer.start();
-//
-//           }
-//
-//        }else{
-//
-//            Toast.makeText(getApplicationContext(),"Playing from app", Toast.LENGTH_SHORT).show();
-//            try {
-//                AssetFileDescriptor afd = getAssets().openFd("piano.wav");
-//                mediaPlayer = new MediaPlayer();
-//                mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-//                afd.close();
-//                mediaPlayer.prepare();
-//                mediaPlayer.start();
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        enableSeekBar();
-//
-//    }
 
-    public void playChapter(ArrayList playList) {
 
-        mediaPlayer = MediaPlayer.create(this, Uri.parse((String) playList.get(0)));
+    public ArrayList createPlayList(int startTrack) {
+
+        Long playTime = durations.get(startTrack);
+        int playChapters = 1;
+        int lastTrack = startTrack;
+//        ArrayList<Integer> playList = new ArrayList<Integer>();
+        playListPaths = new ArrayList<String>();
+
+//        playList.add(startTrack);
+        playListPaths.add((String) chapterList.get(startTrack));
+
+        while(playTime < minTime) {
+            lastTrack = lastTrack + 1;
+            if(lastTrack < chapterList.size()) {
+                playTime = playTime + durations.get(lastTrack);
+                playChapters = playChapters + 1;
+                playListPaths.add((String) chapterList.get(lastTrack));
+            } else {
+                break;
+            }
+        }
+
+            Log.e("playList1 :", String.valueOf(playListPaths));
+
+        return playListPaths;
+    }
+
+    public void playPlayList() {
+
+        index = 0;
+        maxIndex = playListPaths.size();
+        while (index < maxIndex) {
+            mediaPlayer = MediaPlayer.create(this, Uri.parse((String) playListPaths.get(index)));
+            mediaPlayer.start();
+            enableSeekBar();
+            index++;
+                    }
+    }
+
+    public void playChapter() {
+
+        mediaPlayer = MediaPlayer.create(this, Uri.parse((String) playListPaths.get(0)));
         mediaPlayer.start();
         enableSeekBar();
-        if (playList.size() > 1) playNext();
+        if (playListPaths.size() > 1) playNext(1);
         index = 0;
-        maxIndex = playList.size();
-        mTrack = (String) playList.get(index);
+        maxIndex = playListPaths.size();
+        mTrack = (String) playListPaths.get(index);
         Log.e("play-track", mTrack);
 
     }
 
-    public void playNext() {
+    public void playNext(int skip) {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
 //            mediaPlayer.reset();
-            mediaPlayer = MediaPlayer.create(AudioPlayerActivity.this, Uri.parse(playList.get(++index)));
+            currentIndex = currentIndex + skip;
+            mediaPlayer = MediaPlayer.create(AudioPlayerActivity.this, Uri.parse(playListPaths.get(currentIndex)));
             mediaPlayer.start();
             enableSeekBar();
-            if (playList.size() > index+1) {
-                playNext();
+            if (playListPaths.size() > currentIndex+1) {
+                playNext(1);
             }
             }
         },mediaPlayer.getDuration()+100);
     }
+
 
     public void stopPlaying(){
         if(mediaPlayer!=null){
