@@ -24,7 +24,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
     ArrayList<Long> durations;
     MediaPlayer mediaPlayer;
     SeekBar seekBar;
-    String mTrack, bookTitle;
+    String mTrack, bookTitle, playStatus;
     int index, maxIndex;
     int itemPosition;
     int currentIndex = 0;
@@ -42,12 +42,14 @@ public class AudioPlayerActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         timer = new Timer();
-        chapterList =new ArrayList<String>();
+        chapterList = new ArrayList<String>();
 
         bookTitle = intent.getStringExtra("bookTitle");
         itemPosition = intent.getIntExtra("position", 0);
         chapterList = intent.getStringArrayListExtra("paths");
         durations =(ArrayList<Long>) intent.getSerializableExtra("durations");
+        playStatus = intent.getStringExtra("playStatus");
+
 
 //        playList = intent.getStringArrayListExtra("filepath");
 
@@ -70,6 +72,10 @@ public class AudioPlayerActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked){
+                    playBtn.setBackgroundResource(R.drawable.outline_play_circle_24);
+                    mediaPlayer.pause();
+                    flagPaused = true;
+                } else {
                     playBtn.setBackgroundResource(R.drawable.outline_pause_circle_24);
                     if (flagPaused) {
                         mediaPlayer.start();
@@ -77,10 +83,6 @@ public class AudioPlayerActivity extends AppCompatActivity {
                         playChapter();
                     }
                     flagPaused = false;
-                } else {
-                    playBtn.setBackgroundResource(R.drawable.outline_play_circle_24);
-                    mediaPlayer.pause();
-                    flagPaused = true;
                 }
             }
         });
@@ -101,6 +103,11 @@ public class AudioPlayerActivity extends AppCompatActivity {
         });
 
         createPlayList(itemPosition);
+
+        if (playStatus .equals("Play")) {
+            playChapter();
+        }
+
     }  // end of onCreate
 
 
@@ -157,19 +164,19 @@ public class AudioPlayerActivity extends AppCompatActivity {
     }
 
     public void playNext(int skip) {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
 //            mediaPlayer.reset();
-            currentIndex = currentIndex + skip;
-            mediaPlayer = MediaPlayer.create(AudioPlayerActivity.this, Uri.parse(playListPaths.get(currentIndex)));
-            mediaPlayer.start();
-            enableSeekBar();
-            if (playListPaths.size() > currentIndex+1) {
-                playNext(1);
-            }
-            }
-        },mediaPlayer.getDuration()+100);
+                    currentIndex = currentIndex + skip;
+                    mediaPlayer = MediaPlayer.create(AudioPlayerActivity.this, Uri.parse(playListPaths.get(currentIndex)));
+                    mediaPlayer.start();
+                    enableSeekBar();
+                    if (playListPaths.size() > currentIndex + 1) {
+                        playNext(1);
+                    }
+                }
+            }, mediaPlayer.getDuration() + 100);
     }
 
 
