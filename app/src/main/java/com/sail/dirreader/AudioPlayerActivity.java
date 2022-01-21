@@ -14,11 +14,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class AudioPlayerActivity extends AppCompatActivity {
+public class AudioPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
     ArrayList chapterList;
     ArrayList<Long> durations;
@@ -57,6 +58,8 @@ public class AudioPlayerActivity extends AppCompatActivity {
 //        mediaPlayer = MediaPlayer.create(this, Uri.parse(playList.get(0)));
 //        mediaPlayer.start();
 //        enableSeekBar();
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(this);
 
 
         TextView audioName = findViewById(R.id.audioName);
@@ -72,15 +75,17 @@ public class AudioPlayerActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked){
-                    playBtn.setBackgroundResource(R.drawable.outline_play_circle_24);
-                    mediaPlayer.pause();
-                    flagPaused = true;
+                    if(!flagPaused) {
+                        playBtn.setBackgroundResource(R.drawable.outline_play_circle_24);
+                        mediaPlayer.pause();
+                        flagPaused = true;
+                    }
                 } else {
                     playBtn.setBackgroundResource(R.drawable.outline_pause_circle_24);
                     if (flagPaused) {
                         mediaPlayer.start();
                     } else {
-                        playChapter();
+                        playChapter2(index);
                     }
                     flagPaused = false;
                 }
@@ -105,7 +110,7 @@ public class AudioPlayerActivity extends AppCompatActivity {
         createPlayList(itemPosition);
 
         if (playStatus .equals("Play")) {
-            playChapter();
+            playChapter2(0);
         }
 
     }  // end of onCreate
@@ -150,6 +155,21 @@ public class AudioPlayerActivity extends AppCompatActivity {
                     }
     }
 
+    public void playChapter2(int index) {
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(playListPaths.get(index));
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            enableSeekBar();
+            flagPaused = false;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void playChapter() {
 
         mediaPlayer = MediaPlayer.create(this, Uri.parse((String) playListPaths.get(0)));
@@ -164,19 +184,20 @@ public class AudioPlayerActivity extends AppCompatActivity {
     }
 
     public void playNext(int skip) {
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-//            mediaPlayer.reset();
-                    currentIndex = currentIndex + skip;
-                    mediaPlayer = MediaPlayer.create(AudioPlayerActivity.this, Uri.parse(playListPaths.get(currentIndex)));
-                    mediaPlayer.start();
-                    enableSeekBar();
-                    if (playListPaths.size() > currentIndex + 1) {
-                        playNext(1);
-                    }
-                }
-            }, mediaPlayer.getDuration() + 100);
+        try {
+
+            mediaPlayer.reset();
+            index = index + skip;
+            mediaPlayer.setDataSource(playListPaths.get(index));
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            enableSeekBar();
+            flagPaused = false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
@@ -230,4 +251,14 @@ public class AudioPlayerActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    @Override
+    public void onCompletion(MediaPlayer arg0) {
+        if ( index < (playListPaths.size() - 1)) {
+            playChapter2(index + 1);
+            index = index + 1;
+        } else {
+            finish();
+        }
+
+    }
 }
