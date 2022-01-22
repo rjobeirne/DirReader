@@ -75,17 +75,19 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked){
-                    if(!flagPaused) {
+//                    if(!flagPaused) {
                         playBtn.setBackgroundResource(R.drawable.outline_play_circle_24);
+//                    }
                         mediaPlayer.pause();
                         flagPaused = true;
-                    }
+//                    }
                 } else {
                     playBtn.setBackgroundResource(R.drawable.outline_pause_circle_24);
                     if (flagPaused) {
                         mediaPlayer.start();
                     } else {
-                        playChapter2(index);
+                        mediaPlayer.pause();
+//                        playChapter2(index);
                     }
                     flagPaused = false;
                 }
@@ -98,6 +100,8 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                 int skip = -1;
                 mediaPlayer.stop();
                 playNext(skip);
+//                playBtn.setBackgroundResource(R.drawable.outline_pause_circle_24);
+//                flagPaused = false;
             }
         });
 
@@ -105,6 +109,8 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             int skip = 1;
             mediaPlayer.stop();
             playNext(skip);
+//            playBtn.setBackgroundResource(R.drawable.outline_pause_circle_24);
+//            flagPaused = false;
         });
 
         createPlayList(itemPosition);
@@ -160,9 +166,13 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.reset();
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
-            mediaPlayer.start();
-            enableSeekBar();
-            flagPaused = false;
+            if (flagPaused) {
+                mediaPlayer.pause();
+            } else {
+                mediaPlayer.start();
+                enableSeekBar();
+                flagPaused = false;
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -188,11 +198,21 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
 
             mediaPlayer.reset();
             index = index + skip;
+            if (index < 0 ) {
+                index = 0;
+            }
+            if (index > playListPaths.size() - 1) {
+                index = playListPaths.size() - 1;
+            }
+            Log.e("  Index ** : ", String.valueOf(index));
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
-            mediaPlayer.start();
-            enableSeekBar();
-            flagPaused = false;
+            seekBar.setProgress(0);   // required if skipping while paused
+            if (!flagPaused) {
+                mediaPlayer.start();
+                enableSeekBar();
+                flagPaused = false;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
