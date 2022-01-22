@@ -51,19 +51,11 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         durations =(ArrayList<Long>) intent.getSerializableExtra("durations");
         playStatus = intent.getStringExtra("playStatus");
 
-
-//        playList = intent.getStringArrayListExtra("filepath");
-
-
-//        mediaPlayer = MediaPlayer.create(this, Uri.parse(playList.get(0)));
-//        mediaPlayer.start();
-//        enableSeekBar();
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(this);
 
 
         TextView audioName = findViewById(R.id.audioName);
-//        Button playBtn = findViewById(R.id.playBtn);
         Button viewAllMediaBtn = findViewById(R.id.viewAllMedia);
         Button skipToPrevious = findViewById(R.id.skip_to_previous);
         Button skipToNext = findViewById(R.id.skip_to_next);
@@ -75,19 +67,15 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked){
-//                    if(!flagPaused) {
-                        playBtn.setBackgroundResource(R.drawable.outline_play_circle_24);
-//                    }
-                        mediaPlayer.pause();
-                        flagPaused = true;
-//                    }
+                    playBtn.setBackgroundResource(R.drawable.outline_play_circle_24);
+                    mediaPlayer.pause();
+                    flagPaused = true;
                 } else {
                     playBtn.setBackgroundResource(R.drawable.outline_pause_circle_24);
                     if (flagPaused) {
                         mediaPlayer.start();
                     } else {
                         mediaPlayer.pause();
-//                        playChapter2(index);
                     }
                     flagPaused = false;
                 }
@@ -100,8 +88,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                 int skip = -1;
                 mediaPlayer.stop();
                 playNext(skip);
-//                playBtn.setBackgroundResource(R.drawable.outline_pause_circle_24);
-//                flagPaused = false;
             }
         });
 
@@ -109,8 +95,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             int skip = 1;
             mediaPlayer.stop();
             playNext(skip);
-//            playBtn.setBackgroundResource(R.drawable.outline_pause_circle_24);
-//            flagPaused = false;
         });
 
         createPlayList(itemPosition);
@@ -127,10 +111,8 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         Long playTime = durations.get(startTrack);
         int playChapters = 1;
         int lastTrack = startTrack;
-//        ArrayList<Integer> playList = new ArrayList<Integer>();
-        playListPaths = new ArrayList<String>();
 
-//        playList.add(startTrack);
+        playListPaths = new ArrayList<String>();
         playListPaths.add((String) chapterList.get(startTrack));
 
         while(playTime < minTime) {
@@ -143,22 +125,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                 break;
             }
         }
-
-            Log.e("playList1 :", String.valueOf(playListPaths));
-
         return playListPaths;
-    }
-
-    public void playPlayList() {
-
-        index = 0;
-        maxIndex = playListPaths.size();
-        while (index < maxIndex) {
-            mediaPlayer = MediaPlayer.create(this, Uri.parse((String) playListPaths.get(index)));
-            mediaPlayer.start();
-            enableSeekBar();
-            index++;
-                    }
     }
 
     public void playChapter2(int index) {
@@ -177,19 +144,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
-
-    public void playChapter() {
-
-        mediaPlayer = MediaPlayer.create(this, Uri.parse((String) playListPaths.get(0)));
-        mediaPlayer.start();
-        enableSeekBar();
-        if (playListPaths.size() > 1) playNext(1);
-        index = 0;
-        maxIndex = playListPaths.size();
-        mTrack = (String) playListPaths.get(index);
-        Log.e("play-track", mTrack);
 
     }
 
@@ -216,8 +170,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
 
