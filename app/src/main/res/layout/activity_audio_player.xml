@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AudioPlayerActivity">
 
+
     <Button
         android:id="@+id/skip_to_previous"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/outline_skip_previous_24" />
+        android:background="@drawable/outline_skip_previous_24"
+        app:layout_constraintBaseline_toBaselineOf="@+id/skip_to_next"
+        app:layout_constraintBottom_toTopOf="@+id/rewind_5pc"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ToggleButton
         android:id="@+id/playBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/outline_pause_circle_24"
         android:textAllCaps="false"
         android:textOff=""
         android:textOn=""
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="230dp" />
-
+        app:layout_constraintBottom_toTopOf="@+id/rewind_5pc"
+        app:layout_constraintEnd_toStartOf="@+id/skip_to_next"
+        app:layout_constraintStart_toEndOf="@+id/skip_to_previous" />
 
     <Button
         android:id="@+id/skip_to_next"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="389dp"
-        android:layout_marginEnd="322dp"
-        android:background="@drawable/outline_skip_next_24" />
+        android:background="@drawable/outline_skip_next_24"
+        app:layout_constraintBottom_toTopOf="@+id/forward_5pc"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/audioName"
@@ -46,18 +49,142 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="480dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="33dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="178dp" />
+        app:layout_constraintBottom_toTopOf="@+id/playBtn"
+        app:layout_constraintStart_toStartOf="@+id/playBtn" />
+
+<!--     Rewind & Fast forward-->
+    <Button
+        android:id="@+id/rewind_5pc"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/outline_fast_rewind_24"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/minus5pc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5%"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/rewind_5pc"
+        app:layout_constraintStart_toEndOf="@+id/rewind_5pc"
+        app:layout_constraintTop_toTopOf="@+id/rewind_5pc" />
+
+    <Button
+        android:id="@+id/rewind_5secs"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/outline_fast_rewind_24"
+        app:layout_constraintBottom_toBottomOf="@+id/minus5pc"
+        app:layout_constraintStart_toEndOf="@+id/minus5pc"
+        app:layout_constraintTop_toTopOf="@+id/minus5pc" />
+
+    <TextView
+        android:id="@+id/minus5secs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5s"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/rewind_5secs"
+        app:layout_constraintStart_toEndOf="@+id/rewind_5secs"
+        app:layout_constraintTop_toTopOf="@+id/rewind_5secs" />
+
+    <TextView
+        android:id="@+id/plus5secs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5s"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/minus5secs"
+        app:layout_constraintEnd_toStartOf="@+id/forward_5secs"
+        app:layout_constraintTop_toTopOf="@+id/minus5secs" />
+
+    <Button
+        android:id="@+id/forward_5secs"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/outline_fast_forward_24"
+        app:layout_constraintBottom_toBottomOf="@+id/plus5secs"
+        app:layout_constraintEnd_toStartOf="@+id/plus5pc"
+        app:layout_constraintTop_toTopOf="@+id/plus5secs" />
+
+    <TextView
+        android:id="@+id/plus5pc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5%"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/forward_5secs"
+        app:layout_constraintEnd_toStartOf="@+id/forward_5pc"
+        app:layout_constraintTop_toTopOf="@+id/forward_5secs" />
+
+    <Button
+        android:id="@+id/forward_5pc"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/outline_fast_forward_24"
+        app:layout_constraintBottom_toBottomOf="@+id/plus5pc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/plus5pc" />
+
+<!--    Seek bar-->
+    <TextView
+        android:id="@+id/current_position"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:text="pos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/seekBar"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar" />
+
 
     <SeekBar
         android:id="@+id/seekBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="43dp" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/chapter_duration"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/current_position"
+        app:layout_constraintTop_toBottomOf="@+id/rewind_5secs" />
+
+    <TextView
+        android:id="@+id/chapter_duration"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:text="len"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/seekBar"
+        app:layout_constraintTop_toTopOf="@id/seekBar"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar" />
 
     <Button
         android:id="@+id/viewAllMedia"
@@ -66,8 +193,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/playBtn"
         android:layout_alignStart="@+id/playBtn"
-        android:layout_marginStart="-21dp"
-        android:layout_marginTop="14dp"
+        android:text="View all media"
         android:textColor="@color/white"
-        android:text="View all media" />
-</RelativeLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class AudioPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
@@ -35,6 +36,8 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
     int startTrack;
     public int minTime = 15 * 60 * 1000;
     ArrayList<String> playListPaths;
+    private TextView mChapterDuration, mCurrentPosition;
+    long chapterTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         Button viewAllMediaBtn = findViewById(R.id.viewAllMedia);
         Button skipToPrevious = findViewById(R.id.skip_to_previous);
         Button skipToNext = findViewById(R.id.skip_to_next);
+        mChapterDuration = findViewById(R.id.chapter_duration);
+        mCurrentPosition = findViewById(R.id.current_position);
 
         final ToggleButton playBtn = (ToggleButton)findViewById(R.id.playBtn);
 
@@ -133,6 +138,14 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.reset();
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
+        // Update chapter duration
+            chapterTime = durations.get(index);
+            String dspChaptTime = String.format("%2d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(chapterTime),
+                        TimeUnit.MILLISECONDS.toSeconds(chapterTime) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(chapterTime)));
+            mChapterDuration.setText(dspChaptTime);
+
             if (flagPaused) {
                 mediaPlayer.pause();
             } else {
@@ -162,6 +175,15 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
             seekBar.setProgress(0);   // required if skipping while paused
+
+        // Update chapter duration
+            chapterTime = durations.get(index);
+            String dspChaptTime = String.format("%2d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(chapterTime),
+                        TimeUnit.MILLISECONDS.toSeconds(chapterTime) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(chapterTime)));
+            mChapterDuration.setText(dspChaptTime);
+
             if (!flagPaused) {
                 mediaPlayer.start();
                 enableSeekBar();
