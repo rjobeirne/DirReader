@@ -68,5 +68,6 @@
         android:layout_alignStart="@+id/playBtn"
         android:layout_marginStart="-21dp"
         android:layout_marginTop="14dp"
+        android:textColor="@color/white"
         android:text="View all media" />
 </RelativeLayout>

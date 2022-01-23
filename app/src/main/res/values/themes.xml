@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.DirReader" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="android:background">@color/cardview_dark_background</item>
+        <item name="colorPrimary">@color/cardview_dark_background</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -17,8 +18,11 @@
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">#EEEEEE</item>
+        <item name="android:background">@color/cardview_dark_background</item>
+        <item name="colorOnBackground">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 </resources>
