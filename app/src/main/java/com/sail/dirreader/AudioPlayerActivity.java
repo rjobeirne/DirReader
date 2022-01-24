@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,8 +37,11 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
     int startTrack;
     public int minTime = 15 * 60 * 1000;
     ArrayList<String> playListPaths;
-    private TextView mChapterDuration, mCurrentPosition;
-    long chapterTime;
+    private TextView mChapterDuration, mCurrentPosition, mAudioName;
+    long chapterTime, currentPosition;
+
+
+    private Handler mHandler = new Handler();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +67,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         Button skipToPrevious = findViewById(R.id.skip_to_previous);
         Button skipToNext = findViewById(R.id.skip_to_next);
         mChapterDuration = findViewById(R.id.chapter_duration);
-        mCurrentPosition = findViewById(R.id.current_position);
+        mAudioName = findViewById(R.id.audioName);
 
         final ToggleButton playBtn = (ToggleButton)findViewById(R.id.playBtn);
 
@@ -138,6 +142,9 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.reset();
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
+            String currentChapter = (String) chapterList.get(index);
+            mAudioName.setText(currentChapter);
+
         // Update chapter duration
             chapterTime = durations.get(index);
             String dspChaptTime = String.format("%2d:%02d",
@@ -152,6 +159,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                 mediaPlayer.start();
                 enableSeekBar();
                 flagPaused = false;
+
             }
 
         } catch (IOException e) {
@@ -174,6 +182,8 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             Log.e("  Index ** : ", String.valueOf(index));
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
+            String currentChapter = (String) chapterList.get(index);
+            mAudioName.setText(currentChapter);
             seekBar.setProgress(0);   // required if skipping while paused
 
         // Update chapter duration
@@ -205,6 +215,9 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         seekBar =  findViewById(R.id.seekBar);
         seekBar.setMax(mediaPlayer.getDuration());
 
+        mHandler.postDelayed(mUpdateTimeTask, 100);
+
+
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -223,6 +236,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                 // Update the progress depending on seek bar
                 if(fromUser){
                     mediaPlayer.seekTo(progress);
+
                 }
 
             }
@@ -239,6 +253,23 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         });
     }
 
+    private Runnable mUpdateTimeTask = new Runnable() {
+        @Override
+        public void run() {
+
+            mCurrentPosition = findViewById(R.id.current_position);
+            currentPosition = mediaPlayer.getCurrentPosition();
+            String dspCurrentPos = String.format("%2d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(currentPosition),
+                    TimeUnit.MILLISECONDS.toSeconds(currentPosition) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(currentPosition)));
+            mCurrentPosition.setText(dspCurrentPos);
+
+               // Running this thread after 100 milliseconds
+               mHandler.postDelayed(this, 100);
+        }
+    };
+
     @Override
     public void onBackPressed() {
         stopPlaying();
@@ -253,6 +284,5 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         } else {
             finish();
         }
-
     }
 }
