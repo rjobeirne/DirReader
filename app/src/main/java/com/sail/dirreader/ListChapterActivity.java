@@ -57,8 +57,6 @@ public class ListChapterActivity extends AppCompatActivity {
         chapterListAdapter = new ChapterListAdapter(context, allChapters);
         listChapterView.setLayoutManager(new LinearLayoutManager(context));
         listChapterView.setAdapter(chapterListAdapter);
-
-
     }
 
     public ArrayList<ChapterModel> getChapterList(final Context context, String mBookTitle) {
@@ -125,10 +123,7 @@ public class ListChapterActivity extends AppCompatActivity {
     public void makeCover(String coverPath) {
 
         Bitmap bitmap = BitmapFactory.decodeFile(coverPath);
-
         BitmapDrawable coverBMP = new BitmapDrawable(bitmap);
-
-//        BitmapDrawable coverBMP = theCover.makeCover(coverPath);
         mCoverView.setBackground(coverBMP);
     }
 }

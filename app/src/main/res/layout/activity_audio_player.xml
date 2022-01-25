@@ -7,6 +7,16 @@
     tools:context=".AudioPlayerActivity">
 
 
+    <ImageView
+        android:id="@+id/book_cover"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/viewAllMedia" />
+
     <Button
         android:id="@+id/skip_to_previous"
         android:layout_width="48dp"

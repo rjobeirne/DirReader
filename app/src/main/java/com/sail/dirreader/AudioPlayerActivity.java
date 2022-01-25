@@ -1,6 +1,9 @@
 package com.sail.dirreader;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -27,7 +31,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
     ArrayList<Long> durations;
     MediaPlayer mediaPlayer;
     SeekBar seekBar;
-    String mTrack, bookTitle, playStatus;
+    String mTrack, bookTitle, playStatus, coverPath;
     int index, maxIndex;
     int itemPosition;
     int currentIndex = 0;
@@ -38,6 +42,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
     public int minTime = 15 * 60 * 1000;
     ArrayList<String> playListPaths;
     private TextView mChapterDuration, mCurrentPosition, mAudioName;
+    View mCoverView;
     long chapterTime, currentPosition;
 
 
@@ -58,6 +63,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         chapterName = intent.getStringArrayListExtra("chapterName");
         durations =(ArrayList<Long>) intent.getSerializableExtra("durations");
         playStatus = intent.getStringExtra("playStatus");
+        coverPath = intent.getStringExtra("cover");
 
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(this);
@@ -108,6 +114,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         });
 
         createPlayList(itemPosition);
+        makeCover(coverPath);
 
         if (playStatus .equals("Play")) {
             playChapter2(0);
@@ -200,6 +207,15 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void makeCover(String coverPath) {
+
+        View mCoverView = findViewById(R.id.book_cover);
+        Bitmap bitmap = BitmapFactory.decodeFile(coverPath);
+        BitmapDrawable coverBMP = new BitmapDrawable(bitmap);
+        mCoverView.setBackground(coverBMP);
+
     }
 
 

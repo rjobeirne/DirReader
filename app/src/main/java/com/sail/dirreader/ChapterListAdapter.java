@@ -60,8 +60,8 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         trackNumber = chapterDataSet.get(i).getaTrackNumber();
         duration = chapterDataSet.get(i).getaRawDuration();
         path = chapterDataSet.get(i).getaPath();
-        bookTitle = chapterDataSet.get(0).getaTitle();
-        bookCover = chapterDataSet.get(0).getaCover();
+        bookTitle = chapterDataSet.get(i).getaTitle();
+        bookCover = chapterDataSet.get(i).getaCover();
 
         mChapterName = mChapterName.substring(0, mChapterName.indexOf(".")); // remove file extension
 

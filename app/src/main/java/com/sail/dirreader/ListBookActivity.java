@@ -72,7 +72,7 @@ public class ListBookActivity extends AppCompatActivity {
             File[] intFiles = intDir.listFiles();
 
             for (int j = 0; j < intFiles.length; j++) {
-                nameFile = intFiles[i].getName();
+                nameFile = intFiles[j].getName();
                 if (nameFile.endsWith(".jpg")) {
                     coverPath = intDir + "/" + nameFile;
                 }
