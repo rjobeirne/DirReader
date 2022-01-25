@@ -59,12 +59,12 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         path = chapterDataSet.get(i).getaPath();
         bookTitle = chapterDataSet.get(i).getaTitle();
 
-        if(mChapterName.contains("-")){
-            mChapterName = mChapterName.substring(0, mChapterName.indexOf("."));
-            chapterViewHolder.mChapterNoTextView.setText(mChapterName);
-        } else {
-            chapterViewHolder.mChapterNoTextView.setText("Chapter " + (i + 1));
+        mChapterName = mChapterName.substring(0, mChapterName.indexOf(".")); // remove file extension
+
+        if(!mChapterName.contains("-")){
+            mChapterName = "Chapter " + (i + 1);
         }
+        chapterViewHolder.mChapterNoTextView.setText(mChapterName);
         chapterViewHolder.mChapterDurationTextView.setText(mChapterDuration);
 
         paths.add(path);

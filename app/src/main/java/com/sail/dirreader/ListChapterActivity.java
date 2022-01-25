@@ -63,19 +63,14 @@ public class ListChapterActivity extends AppCompatActivity {
 
         String dirPath = Environment.getExternalStorageDirectory().toString() + "/AudioBooks/" + mBookTitle;
 
-        Log.d("Files", "Path: " + dirPath);
         File directory = new File(dirPath);
         File[] files = directory.listFiles();
-        Log.d("Files", "Size: " + files.length);
 
         for (int i = 0; i < files.length; i++) {
 
             nameChapter = files[i].getName();
-            Log.e("  nameChapter", nameChapter);
             String duration;
             String out;
-
-            String chapterNames = dirPath + "/" + nameChapter;
 
             if(nameChapter.endsWith(".mp3")) {
 

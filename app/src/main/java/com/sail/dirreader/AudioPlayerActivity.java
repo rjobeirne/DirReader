@@ -144,7 +144,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
             String currentChapter = (String) chapterName.get(index);
-            currentChapter = currentChapter.replaceAll("\\.\\w",""); // remove extension
             mAudioName.setText(currentChapter);
 
         // Update chapter duration
@@ -161,13 +160,11 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                 mediaPlayer.start();
                 enableSeekBar();
                 flagPaused = false;
-
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void playNext(int skip) {
@@ -181,7 +178,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             if (index > playListPaths.size() - 1) {
                 index = playListPaths.size() - 1;
             }
-            Log.e("  Index ** : ", String.valueOf(index));
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
             String currentChapter = (String) chapterName.get(index);
