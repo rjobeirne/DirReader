@@ -1,5 +1,6 @@
 package com.sail.dirreader;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -24,11 +26,12 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     public  int minTime = 15 * 60 * 1000;
     Integer trackNumber, startTrack;
     Long duration;
-    public String path, bookTitle, pathChapter;
+    public String path, bookTitle, bookCover;
     public ArrayList<String> paths = new ArrayList<String>();
     public ArrayList<String> nameChapters = new ArrayList<String>();
     public ArrayList<Long> durations = new ArrayList<Long>();
     public String playStatus;
+    View screenView;
 
 
     public ChapterListAdapter(Context context, ArrayList<ChapterModel> chapterModelList) {
@@ -57,7 +60,8 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         trackNumber = chapterDataSet.get(i).getaTrackNumber();
         duration = chapterDataSet.get(i).getaRawDuration();
         path = chapterDataSet.get(i).getaPath();
-        bookTitle = chapterDataSet.get(i).getaTitle();
+        bookTitle = chapterDataSet.get(0).getaTitle();
+        bookCover = chapterDataSet.get(0).getaCover();
 
         mChapterName = mChapterName.substring(0, mChapterName.indexOf(".")); // remove file extension
 
@@ -108,6 +112,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
             intent.putStringArrayListExtra("chapterName", nameChapters);
             intent.putExtra("durations", durations);
             intent.putExtra("playStatus", playStatus);
+            intent.putExtra("cover", bookCover);
             nContext.startActivity(intent);
         }
     }

@@ -2,10 +2,13 @@ package com.sail.dirreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,13 +24,13 @@ public class ListChapterActivity extends AppCompatActivity {
     ChapterListAdapter chapterListAdapter;
     Context context;
 
-    String bookTitle;
+    String bookTitle, coverPath;
     String nameChapter;
     long dur, secs, mins;
     String seconds, minutes;
 
     TextView mBookTitleTextView;
-
+    View mCoverView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +40,9 @@ public class ListChapterActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         bookTitle = intent.getStringExtra("bookName");
-
         mBookTitleTextView = findViewById(R.id.book_name);
+        mCoverView = findViewById(R.id.cover_background);
         mBookTitleTextView.setText(bookTitle);
-
 
         getChapters(bookTitle);
 
@@ -55,6 +57,7 @@ public class ListChapterActivity extends AppCompatActivity {
         listChapterView.setLayoutManager(new LinearLayoutManager(context));
         listChapterView.setAdapter(chapterListAdapter);
 
+
     }
 
     public ArrayList<ChapterModel> getChapterList(final Context context, String mBookTitle) {
@@ -67,16 +70,24 @@ public class ListChapterActivity extends AppCompatActivity {
         File[] files = directory.listFiles();
 
         for (int i = 0; i < files.length; i++) {
+            nameChapter = files[i].getName();
+            if (nameChapter.endsWith(".jpg")) {
+                coverPath = dirPath + "/" + nameChapter;
+            }
+        }
+
+        for (int i = 0; i < files.length; i++) {
 
             nameChapter = files[i].getName();
             String duration;
             String out;
+            String chapterPath = dirPath + "/" + nameChapter;
+            ChapterModel chapterModel = new ChapterModel();
+            // load data file
+            MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
 
             if(nameChapter.endsWith(".mp3")) {
 
-                // load data file
-                MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
-                String chapterPath = dirPath + "/" + nameChapter;
                 metaRetriever.setDataSource(chapterPath);
 
                 // get mp3 info
@@ -101,19 +112,31 @@ public class ListChapterActivity extends AppCompatActivity {
 
                 out = minutes + ":" + seconds;
 
-                ChapterModel chapterModel = new ChapterModel();
                 chapterModel.setaTrackNumber(i);
                 chapterModel.setaChapter(nameChapter);
                 chapterModel.setaDuration(out);
                 chapterModel.setaRawDuration(dur);
                 chapterModel.setaPath(chapterPath);
+                chapterModel.setaCover(coverPath);
                 tempChapterList.add(chapterModel);
 
                 // close object
                 metaRetriever.release();
             }
+
         }
+        makeCover(coverPath);
         return tempChapterList;
+    }
+
+    public void makeCover(String coverPath) {
+
+        Bitmap bitmap = BitmapFactory.decodeFile(coverPath);
+
+        BitmapDrawable coverBMP = new BitmapDrawable(bitmap);
+
+//        BitmapDrawable coverBMP = theCover.makeCover(coverPath);
+        mCoverView.setBackground(coverBMP);
     }
 
 }

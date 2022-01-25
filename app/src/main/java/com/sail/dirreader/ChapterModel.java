@@ -8,6 +8,7 @@ public class ChapterModel {
     Long aRawDuration;
     String aPath;
     String aTitle;
+    String aCover;
 
     public String getaPath() { return aPath; }
 
@@ -40,6 +41,10 @@ public class ChapterModel {
     public void setaTitle(String aTitle) {
         this.aTitle = aTitle;
     }
+
+    public String getaCover() { return aCover;}
+
+    public void setaCover(String aCover) { this.aCover = aCover; }
 
 //    public String getaAuthor() {
 //        return aAuthor;
