@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AudioPlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
-    ArrayList chapterList;
+    ArrayList chapterList, chapterName;
     ArrayList<Long> durations;
     MediaPlayer mediaPlayer;
     SeekBar seekBar;
@@ -55,6 +55,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         bookTitle = intent.getStringExtra("bookTitle");
         itemPosition = intent.getIntExtra("position", 0);
         chapterList = intent.getStringArrayListExtra("paths");
+        chapterName = intent.getStringArrayListExtra("chapterName");
         durations =(ArrayList<Long>) intent.getSerializableExtra("durations");
         playStatus = intent.getStringExtra("playStatus");
 
@@ -142,7 +143,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.reset();
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
-            String currentChapter = (String) chapterList.get(index);
+            String currentChapter = (String) chapterName.get(index);
             mAudioName.setText(currentChapter);
 
         // Update chapter duration
@@ -182,7 +183,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             Log.e("  Index ** : ", String.valueOf(index));
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
-            String currentChapter = (String) chapterList.get(index);
+            String currentChapter = (String) chapterName.get(index);
             mAudioName.setText(currentChapter);
             seekBar.setProgress(0);   // required if skipping while paused
 

@@ -74,10 +74,11 @@ public class ListChapterActivity extends AppCompatActivity {
         for (int i = 0; i < files.length; i++) {
 
             nameChapter = files[i].getName();
+            Log.e("  nameChapter", nameChapter);
             String duration;
             String out;
 
-            String filePath = dirPath + "/" + nameChapter;
+            String chapterNames = dirPath + "/" + nameChapter;
 //            Log.e("*fileName",fileName);
 
 
@@ -86,7 +87,8 @@ public class ListChapterActivity extends AppCompatActivity {
 
                 // load data file
                 MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
-                metaRetriever.setDataSource(filePath);
+                String bookPath = dirPath + "/" + nameChapter;
+                metaRetriever.setDataSource(bookPath);
 
                 // get mp3 info
                 duration = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
@@ -115,7 +117,7 @@ public class ListChapterActivity extends AppCompatActivity {
                 chapterModel.setaChapter(nameChapter);
                 chapterModel.setaDuration(out);
                 chapterModel.setaRawDuration(dur);
-                chapterModel.setaPath(filePath);
+                chapterModel.setaPath(dirPath);
                 tempChapterList.add(chapterModel);
 
                 // close object

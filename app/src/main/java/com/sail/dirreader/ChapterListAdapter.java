@@ -24,8 +24,9 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     public  int minTime = 15 * 60 * 1000;
     Integer trackNumber, startTrack;
     Long duration;
-    public String path, bookTitle;
+    public String path, bookTitle, pathChapter;
     public ArrayList<String> paths = new ArrayList<String>();
+    public ArrayList<String> nameChapters = new ArrayList<String>();
     public ArrayList<Long> durations = new ArrayList<Long>();
     public String playStatus;
 
@@ -66,7 +67,10 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         }
         chapterViewHolder.mChapterDurationTextView.setText(mChapterDuration);
 
-        paths.add(path);
+//        paths.add(path);
+        nameChapters.add(mChapterName);
+        pathChapter = path + "/" + mChapterName;
+        paths.add(pathChapter);
         durations.add(duration);
 
     }
@@ -111,6 +115,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
             intent.putExtra("bookTitle", bookTitle);
             intent.putExtra("position", itemPosition);
             intent.putStringArrayListExtra("paths", paths);
+            intent.putStringArrayListExtra("chapterName", nameChapters);
             intent.putExtra("durations", durations);
             intent.putExtra("playStatus", playStatus);
             nContext.startActivity(intent);
