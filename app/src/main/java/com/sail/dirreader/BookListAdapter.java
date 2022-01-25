@@ -19,7 +19,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     private ArrayList<BookModel> bookDataSet;
     private LayoutInflater mInflater;
     Context mContext;
-    public String mBookTitle;
+    public String mBookTitle, mBookCover;
 
 
     public BookListAdapter(Context context, ArrayList<BookModel> bookModelList) {
@@ -44,6 +44,8 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     public void onBindViewHolder(@NonNull BookViewHolder bookViewHolder, int i) {
 
         mBookTitle = bookDataSet.get(i).getaTitle();
+        mBookCover = bookDataSet.get(i).getaCover();
+
         bookViewHolder.mTextView.setText(mBookTitle);
     }
 
@@ -73,10 +75,12 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             int itemPosition = getAdapterPosition();
 
             String bookName = bookList.get(itemPosition).getaTitle();
+            String bookCover = bookList.get(itemPosition).getaCover();
 //            Log.e("book title", bookName);
 
             Intent intent = new Intent(nContext, ListChapterActivity.class);
             intent.putExtra("bookName", bookName);
+            intent.putExtra("coverPath", bookCover);
 
             nContext.startActivity(intent);
 

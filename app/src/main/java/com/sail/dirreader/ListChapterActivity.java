@@ -40,6 +40,7 @@ public class ListChapterActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         bookTitle = intent.getStringExtra("bookName");
+        coverPath = intent.getStringExtra("coverPath");
         mBookTitleTextView = findViewById(R.id.book_name);
         mCoverView = findViewById(R.id.cover_background);
         mBookTitleTextView.setText(bookTitle);
@@ -68,13 +69,6 @@ public class ListChapterActivity extends AppCompatActivity {
 
         File directory = new File(dirPath);
         File[] files = directory.listFiles();
-
-        for (int i = 0; i < files.length; i++) {
-            nameChapter = files[i].getName();
-            if (nameChapter.endsWith(".jpg")) {
-                coverPath = dirPath + "/" + nameChapter;
-            }
-        }
 
         for (int i = 0; i < files.length; i++) {
 
@@ -123,7 +117,6 @@ public class ListChapterActivity extends AppCompatActivity {
                 // close object
                 metaRetriever.release();
             }
-
         }
         makeCover(coverPath);
         return tempChapterList;
@@ -138,5 +131,4 @@ public class ListChapterActivity extends AppCompatActivity {
 //        BitmapDrawable coverBMP = theCover.makeCover(coverPath);
         mCoverView.setBackground(coverBMP);
     }
-
 }

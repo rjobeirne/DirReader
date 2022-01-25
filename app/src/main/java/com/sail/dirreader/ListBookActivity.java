@@ -21,17 +21,14 @@ public class ListBookActivity extends AppCompatActivity {
     RecyclerView listBookView;
     BookListAdapter bookListAdapter;
     Context context;
+    String nameFile, coverPath;
 
-
-
-//    ArrayList listBooks = new ArrayList();
     String nameBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_list);
-
 
         //Checks permissions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -44,9 +41,7 @@ public class ListBookActivity extends AppCompatActivity {
 
         // Find all books in the /AudioBook directory
         getBooks();
-
     }
-
 
     public void getBooks() {
         context = ListBookActivity.this;
@@ -58,7 +53,6 @@ public class ListBookActivity extends AppCompatActivity {
         listBookView.setAdapter(bookListAdapter);
     }
 
-
     public ArrayList<BookModel> getBookList(final Context context) {
 
         final ArrayList<BookModel> tempBookList = new ArrayList<>();
@@ -67,25 +61,33 @@ public class ListBookActivity extends AppCompatActivity {
 
         Log.d("Files", "Path: " + path);
         File directory = new File(path);
-        File[] files = directory.listFiles();
-        Log.d("Files", "Size: " + files.length);
+        File[] books = directory.listFiles();
+        Log.d("Files", "Size: " + books.length);
 
-        for (int i = 0; i < files.length; i++) {
-            Log.d("Files", "FileName:" + files[i].getName());
-            nameBook = files[i].getName();
+        for (int i = 0; i < books.length; i++) {
+            nameBook = books[i].getName();
 
-            if(files[i].isDirectory()) {
+            String intPath = path + "/" + nameBook;
+            File intDir = new File(intPath);
+            File[] intFiles = intDir.listFiles();
+
+            for (int j = 0; j < intFiles.length; j++) {
+                nameFile = intFiles[i].getName();
+                if (nameFile.endsWith(".jpg")) {
+                    coverPath = intDir + "/" + nameFile;
+                }
+            }
+
+            if(books[i].isDirectory()) {
 
                 BookModel bookModel = new BookModel();
 
                 bookModel.setaTitle(nameBook);
+                bookModel.setaCover(coverPath);
 
                 tempBookList.add(bookModel);
             }
         }
-        Log.e("*tempBookList", String.valueOf(tempBookList));
-
         return tempBookList;
     }
-
 }
