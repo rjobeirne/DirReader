@@ -67,10 +67,8 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         }
         chapterViewHolder.mChapterDurationTextView.setText(mChapterDuration);
 
-//        paths.add(path);
+        paths.add(path);
         nameChapters.add(mChapterName);
-        pathChapter = path + "/" + mChapterName;
-        paths.add(pathChapter);
         durations.add(duration);
 
     }
@@ -84,8 +82,6 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         Context nContext;
         ArrayList<ChapterModel> chapterList;
         public TextView mChapterNoTextView, mChapterDurationTextView;
-        Integer trackNumber;
-        List playList;
 
         public ChapterViewHolder(Context context, ArrayList<ChapterModel> chapterModelList, View v) {
             super(v);
@@ -93,7 +89,6 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
             chapterList = chapterModelList;
             mChapterNoTextView = v.findViewById(R.id.chapter_number);
             mChapterDurationTextView = v.findViewById(R.id.chapter_duration);
-
 
             v.setOnClickListener(this);
         }
@@ -103,15 +98,10 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
 
             int itemPosition = getAdapterPosition();
 
-            ArrayList<ChapterModel> playList;
-//            playList = createPlayList(itemPosition);
             startTrack = itemPosition;
             playStatus = "Play";
 
-            Log.e("itemPosition ", String.valueOf(itemPosition));
-
             Intent intent = new Intent(nContext, AudioPlayerActivity.class);
-//            intent.putExtra("filepath", playList);
             intent.putExtra("bookTitle", bookTitle);
             intent.putExtra("position", itemPosition);
             intent.putStringArrayListExtra("paths", paths);
@@ -121,34 +111,6 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
             nContext.startActivity(intent);
         }
     }
-
-//    public ArrayList createPlayList(Integer startTrack) {
-//
-//        Long playTime = chapterDataSet.get(startTrack).getaRawDuration();
-//        Integer playChapters = 1;
-//        Integer lastTrack = startTrack;
-//        ArrayList<Integer> playList = new ArrayList<Integer>();
-//        ArrayList<String> filePaths = new ArrayList<String>();
-//
-//        playList.add(startTrack);
-//        filePaths.add(chapterDataSet.get(startTrack).getaPath());
-//
-//        while(playTime < minTime) {
-//            lastTrack = lastTrack + 1;
-//            if(lastTrack < chapterDataSet.size()) {
-//                playTime = playTime + chapterDataSet.get(lastTrack).getaRawDuration();
-//                playChapters = playChapters + 1;
-//                filePaths.add(chapterDataSet.get(lastTrack).getaPath());
-//            } else {
-//                break;
-//            }
-//        }
-//
-//            Log.e("playList1 :", String.valueOf(filePaths));
-//
-//        return filePaths;
-//    }
-
 }
 
 

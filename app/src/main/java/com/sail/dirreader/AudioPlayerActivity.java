@@ -144,6 +144,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             mediaPlayer.setDataSource(playListPaths.get(index));
             mediaPlayer.prepare();
             String currentChapter = (String) chapterName.get(index);
+            currentChapter = currentChapter.replaceAll("\\.\\w",""); // remove extension
             mAudioName.setText(currentChapter);
 
         // Update chapter duration

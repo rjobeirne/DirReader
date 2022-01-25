@@ -21,7 +21,6 @@ public class ListChapterActivity extends AppCompatActivity {
     ChapterListAdapter chapterListAdapter;
     Context context;
 
-    Integer chapterNumber;
     String bookTitle;
     String nameChapter;
     long dur, secs, mins;
@@ -36,10 +35,8 @@ public class ListChapterActivity extends AppCompatActivity {
         setContentView(R.layout.chapter_list);
 
         Intent intent = getIntent();
-//        Integer bookPosition = intent.getIntExtra("bookPosition", 1);
-        bookTitle = intent.getStringExtra("bookName");
 
-//        Log.e("bookNamei ", bookTitle);
+        bookTitle = intent.getStringExtra("bookName");
 
         mBookTitleTextView = findViewById(R.id.book_name);
         mBookTitleTextView.setText(bookTitle);
@@ -79,16 +76,13 @@ public class ListChapterActivity extends AppCompatActivity {
             String out;
 
             String chapterNames = dirPath + "/" + nameChapter;
-//            Log.e("*fileName",fileName);
-
 
             if(nameChapter.endsWith(".mp3")) {
-//            Log.d("Files", "FileName:" + files[i].getName());
 
                 // load data file
                 MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
-                String bookPath = dirPath + "/" + nameChapter;
-                metaRetriever.setDataSource(bookPath);
+                String chapterPath = dirPath + "/" + nameChapter;
+                metaRetriever.setDataSource(chapterPath);
 
                 // get mp3 info
                 duration = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
@@ -117,7 +111,7 @@ public class ListChapterActivity extends AppCompatActivity {
                 chapterModel.setaChapter(nameChapter);
                 chapterModel.setaDuration(out);
                 chapterModel.setaRawDuration(dur);
-                chapterModel.setaPath(dirPath);
+                chapterModel.setaPath(chapterPath);
                 tempChapterList.add(chapterModel);
 
                 // close object
