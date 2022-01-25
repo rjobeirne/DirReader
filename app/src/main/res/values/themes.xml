@@ -18,7 +18,7 @@
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
-<!--        <item name="android:background">@color/cardview_dark_background</item>-->
+        <item name="android:background">@color/cardview_dark_background</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/white</item>

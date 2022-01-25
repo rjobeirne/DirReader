@@ -209,6 +209,10 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         }
     }
 
+    /**
+     * Function to add cover to player screen
+     * @param coverPath
+     */
     public void makeCover(String coverPath) {
 
         View mCoverView = findViewById(R.id.book_cover);
