@@ -9,6 +9,7 @@ import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,11 +42,18 @@ public class ListChapterActivity extends AppCompatActivity {
 
         bookTitle = intent.getStringExtra("bookName");
         coverPath = intent.getStringExtra("coverPath");
-        mBookTitleTextView = findViewById(R.id.book_name);
+        mBookTitleTextView = findViewById(R.id.book_title);
         mCoverView = findViewById(R.id.cover_background);
-        mBookTitleTextView.setText(bookTitle);
 
         getChapters(bookTitle);
+
+        ImageButton goBack = findViewById(R.id.go_back_button);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -67,6 +75,8 @@ public class ListChapterActivity extends AppCompatActivity {
 
         File directory = new File(dirPath);
         File[] files = directory.listFiles();
+
+        mBookTitleTextView.setText(bookTitle);
 
         for (int i = 0; i < files.length; i++) {
 
@@ -124,6 +134,6 @@ public class ListChapterActivity extends AppCompatActivity {
 
         Bitmap bitmap = BitmapFactory.decodeFile(coverPath);
         BitmapDrawable coverBMP = new BitmapDrawable(bitmap);
-        mCoverView.setBackground(coverBMP);
+//        mCoverView.setBackground(coverBMP);
     }
 }

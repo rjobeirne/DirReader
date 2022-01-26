@@ -29,7 +29,6 @@ public class ListBookActivity extends AppCompatActivity {
     BookListAdapter bookListAdapter;
     Context context;
     String nameFile, coverPath, author;
-    private ImageButton goBack;
 
     String nameBook;
 
@@ -51,7 +50,6 @@ public class ListBookActivity extends AppCompatActivity {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("Back button pressed", "OK");
                 finish();
             }
         });
