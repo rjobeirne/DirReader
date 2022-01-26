@@ -71,6 +71,8 @@ public class ListBookActivity extends AppCompatActivity {
             File intDir = new File(intPath);
             File[] intFiles = intDir.listFiles();
 
+            coverPath = null;
+
             for (int j = 0; j < intFiles.length; j++) {
                 nameFile = intFiles[j].getName();
                 if (nameFile.endsWith(".jpg")) {

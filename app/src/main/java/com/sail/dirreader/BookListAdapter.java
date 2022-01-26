@@ -54,7 +54,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         BitmapDrawable cover = makeCover(mCoverPath);
 
         bookViewHolder.mTextView.setText(mBookTitle);
-//        bookViewHolder.mCoverView.setImageDrawable(cover);
+        bookViewHolder.mCoverView.setImageDrawable(cover);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             nContext = context;
             bookList = bookModelList;
             mTextView = v.findViewById(R.id.book_name);
-            mCoverView = v.findViewById(R.id.book_cover);
+            mCoverView = v.findViewById(R.id.cover_image);
 
             v.setOnClickListener(this);
         }
