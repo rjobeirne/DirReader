@@ -44,6 +44,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
     private TextView mChapterDuration, mCurrentPosition, mAudioName;
     View mCoverView;
     long chapterTime, currentPosition;
+    TextView mBookTitleTextView;
 
 
     private Handler mHandler = new Handler();;
@@ -75,6 +76,8 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         Button skipToNext = findViewById(R.id.skip_to_next);
         mChapterDuration = findViewById(R.id.chapter_duration);
         mAudioName = findViewById(R.id.audioName);
+        mBookTitleTextView = findViewById(R.id.book_title);
+
 
         final ToggleButton playBtn = (ToggleButton)findViewById(R.id.playBtn);
 
@@ -120,6 +123,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             playChapter2(0);
         }
 
+
     }  // end of onCreate
 
 
@@ -142,6 +146,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                 break;
             }
         }
+        mBookTitleTextView.setText(bookTitle);
         return playListPaths;
     }
 

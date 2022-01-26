@@ -6,12 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".AudioPlayerActivity">
 
+    <ImageButton
+        android:id="@+id/go_back_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="left"
+        android:background="@color/cardview_dark_background"
+        android:src="@drawable/ic_baseline_reply_24"
+        app:layout_constraintBottom_toBottomOf="@+id/book_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/book_title" />
+
+    <TextView
+        android:id="@+id/book_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:text="Book title"
+        android:textColor="@color/teal_700"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/chapter_list_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/go_back_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <ImageView
         android:id="@+id/book_cover"
         android:layout_width="288dp"
         android:layout_height="288dp"
         android:scaleType="fitCenter"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/book_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/viewAllMedia" />
@@ -195,17 +222,18 @@
         app:layout_constraintTop_toTopOf="@id/seekBar"
         app:layout_constraintBottom_toBottomOf="@+id/seekBar" />
 
-    <Button
-        android:id="@+id/viewAllMedia"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/playBtn"
-        android:layout_alignStart="@+id/playBtn"
-        android:text="View all media"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/viewAllMedia"-->
+<!--        style="@style/Widget.AppCompat.Button.Borderless"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/playBtn"-->
+<!--        android:layout_alignStart="@+id/playBtn"-->
+<!--        android:text="View all media"-->
+<!--        android:textColor="@color/white"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

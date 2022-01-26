@@ -115,6 +115,7 @@ public class ListChapterActivity extends AppCompatActivity {
                 out = minutes + ":" + seconds;
 
                 chapterModel.setaTrackNumber(i);
+                chapterModel.setaTitle(bookTitle);
                 chapterModel.setaChapter(nameChapter);
                 chapterModel.setaDuration(out);
                 chapterModel.setaRawDuration(dur);

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".ListChapterActivity">
 
-        <ImageButton
+    <ImageButton
         android:id="@+id/go_back_button"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -18,7 +18,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/book_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/book_title" />
-
 
     <TextView
         android:id="@+id/book_title"
