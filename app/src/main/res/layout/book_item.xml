@@ -18,20 +18,10 @@
             tools:visibility="visible" />
 
         <LinearLayout
-            android:id="@+id/text_container"
+            android:id="@+id/book_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/book_name"
-                android:layout_width="288dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:gravity="center_vertical"
-                android:text="Title"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
 
             <ImageView
                 android:id="@+id/cover_image"
@@ -40,7 +30,34 @@
                 android:layout_gravity="center_vertical"
                 android:scaleType="fitCenter" />
 
+            <LinearLayout
+                android:id="@+id/text_container"
+                android:layout_width="288dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/book_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/book_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Author"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

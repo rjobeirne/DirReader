@@ -23,7 +23,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     private ArrayList<BookModel> bookDataSet;
     private LayoutInflater mInflater;
     Context mContext;
-    public String mBookTitle, mCoverPath;
+    public String mBookTitle, mCoverPath, mBookAuthor;
 
 
 
@@ -50,10 +50,12 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
         mBookTitle = bookDataSet.get(i).getaTitle();
         mCoverPath = bookDataSet.get(i).getaCover();
+        mBookAuthor = bookDataSet.get(i).getaAuthor();
 
         BitmapDrawable cover = makeCover(mCoverPath);
 
         bookViewHolder.mTextView.setText(mBookTitle);
+        bookViewHolder.mAuthorView.setText(mBookAuthor);
         bookViewHolder.mCoverView.setImageDrawable(cover);
     }
 
@@ -65,7 +67,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     public static class BookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Context nContext;
         public ArrayList<BookModel> bookList;
-        public TextView mTextView;
+        public TextView mTextView, mAuthorView;
         public ImageView mCoverView;
 
         public BookViewHolder(Context context, ArrayList<BookModel> bookModelList, View v) {
@@ -74,6 +76,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             bookList = bookModelList;
             mTextView = v.findViewById(R.id.book_name);
             mCoverView = v.findViewById(R.id.cover_image);
+            mAuthorView = v.findViewById(R.id.book_author);
 
             v.setOnClickListener(this);
         }
@@ -86,7 +89,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
             String bookName = bookList.get(itemPosition).getaTitle();
             String bookCover = bookList.get(itemPosition).getaCover();
-//            Log.e("book title", bookName);
+            String bookAuthor = bookList.get(itemPosition).getaAuthor();
 
             Intent intent = new Intent(nContext, ListChapterActivity.class);
             intent.putExtra("bookName", bookName);

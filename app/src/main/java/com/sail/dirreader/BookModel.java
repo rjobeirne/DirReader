@@ -3,7 +3,7 @@ package com.sail.dirreader;
 public class BookModel {
 
     String aTitle, aCover;
-//    String aAuthor;
+    String aAuthor;
 
     public String getaTitle() {
         return aTitle;
@@ -17,11 +17,7 @@ public class BookModel {
 
     public void setaCover(String aCover) { this.aCover = aCover; }
 
-//    public String getaAuthor() {
-//        return aAuthor;
-//    }
-//
-//    public void setaAuthor(String aAuthor) {
-//        this.aAuthor = aAuthor;
-//    }
+    public String getaAuthor() { return aAuthor; }
+
+    public void setaAuthor(String aAuthor) { this.aAuthor = aAuthor; }
 }
