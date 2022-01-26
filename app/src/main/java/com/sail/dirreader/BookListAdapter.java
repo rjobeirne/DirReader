@@ -2,10 +2,14 @@ package com.sail.dirreader;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +23,8 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     private ArrayList<BookModel> bookDataSet;
     private LayoutInflater mInflater;
     Context mContext;
-    public String mBookTitle, mBookCover;
+    public String mBookTitle, mCoverPath;
+
 
 
     public BookListAdapter(Context context, ArrayList<BookModel> bookModelList) {
@@ -44,9 +49,12 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     public void onBindViewHolder(@NonNull BookViewHolder bookViewHolder, int i) {
 
         mBookTitle = bookDataSet.get(i).getaTitle();
-        mBookCover = bookDataSet.get(i).getaCover();
+        mCoverPath = bookDataSet.get(i).getaCover();
+
+        BitmapDrawable cover = makeCover(mCoverPath);
 
         bookViewHolder.mTextView.setText(mBookTitle);
+//        bookViewHolder.mCoverView.setImageDrawable(cover);
     }
 
     @Override
@@ -58,12 +66,14 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         Context nContext;
         public ArrayList<BookModel> bookList;
         public TextView mTextView;
+        public ImageView mCoverView;
 
         public BookViewHolder(Context context, ArrayList<BookModel> bookModelList, View v) {
             super(v);
             nContext = context;
             bookList = bookModelList;
             mTextView = v.findViewById(R.id.book_name);
+            mCoverView = v.findViewById(R.id.book_cover);
 
             v.setOnClickListener(this);
         }
@@ -85,6 +95,19 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             nContext.startActivity(intent);
 
         }
+    }
+
+    /**
+     * Function to add cover to player screen
+     * @param coverPath
+     */
+    public BitmapDrawable makeCover(String coverPath) {
+
+//        View mCoverView = mCoverView.findViewById();
+        Bitmap bitmap = BitmapFactory.decodeFile(String.valueOf(coverPath));
+        BitmapDrawable coverBMP = new BitmapDrawable(bitmap);
+//        mCoverView.setBackground(coverBMP);
+        return coverBMP;
     }
 
 
