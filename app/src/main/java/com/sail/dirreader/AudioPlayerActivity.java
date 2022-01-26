@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -122,6 +123,14 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         if (playStatus .equals("Play")) {
             playChapter2(0);
         }
+
+        ImageButton goBack = findViewById(R.id.go_back_button);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
     }  // end of onCreate

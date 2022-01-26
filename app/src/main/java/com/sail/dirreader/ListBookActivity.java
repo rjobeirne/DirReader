@@ -100,9 +100,9 @@ public class ListBookActivity extends AppCompatActivity {
             }
 
             for (int k = 0; k <books.length; k++) {
-
-                if (nameFile.endsWith(".mp3")) {
-                    String filePath = intPath + "/" + nameFile;
+                String audFile = intFiles[k].getName();
+                if (audFile.endsWith(".mp3")) {
+                    String filePath = intDir + "/" + audFile;
                     metaRetriever.setDataSource(filePath);
                     author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
                     if (author == null) {
