@@ -3,6 +3,7 @@ package com.sail.dirreader;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -105,29 +106,36 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         skipToPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int skip = -1;
+                index = index - 1;
+                if (index >= 0) {
                 mediaPlayer.stop();
-                playNext(skip);
+                mediaPlayer.reset();
+                playChapter(index);
+                }
             }
         });
 
         skipToNext.setOnClickListener(v -> {
-            int skip = 1;
-            mediaPlayer.stop();
-            playNext(skip);
+            index = index + 1;
+            if (index <= playListPaths.size() - 1) {
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                playChapter(index);
+            }
         });
 
         createPlayList(itemPosition);
         makeCover(coverPath);
 
         if (playStatus .equals("Play")) {
-            playChapter2(0);
+            playChapter(0);
         }
 
         ImageButton goBack = findViewById(R.id.go_back_button);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer.stop();
                 finish();
             }
         });
@@ -159,7 +167,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         return playListPaths;
     }
 
-    public void playChapter2(int index) {
+    public void playChapter(int index) {
         try {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(playListPaths.get(index));
@@ -175,6 +183,20 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(chapterTime)));
             mChapterDuration.setText(dspChaptTime);
 
+            Button skipToPrevious = findViewById(R.id.skip_to_previous);
+            skipToPrevious.setVisibility(View.VISIBLE);
+            Button skipToNext = findViewById(R.id.skip_to_next);
+            skipToNext.setVisibility(View.VISIBLE);
+
+            if (index <= 0 ) {
+                skipToPrevious.setVisibility(View.INVISIBLE);
+            }
+
+            if (index >= playListPaths.size() - 1) {
+                skipToNext.setVisibility(View.INVISIBLE);
+            }
+
+
             if (flagPaused) {
                 mediaPlayer.pause();
             } else {
@@ -189,38 +211,17 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
     }
 
     public void playNext(int skip) {
-        try {
 
             mediaPlayer.reset();
             index = index + skip;
             if (index < 0 ) {
                 index = 0;
             }
-            if (index > playListPaths.size() - 1) {
+            if (index <= playListPaths.size() - 1) {
+                playChapter(index);
+            } else {
                 index = playListPaths.size() - 1;
             }
-            mediaPlayer.setDataSource(playListPaths.get(index));
-            mediaPlayer.prepare();
-            String currentChapter = (String) chapterName.get(index);
-            mAudioName.setText(currentChapter);
-            seekBar.setProgress(0);   // required if skipping while paused
-
-        // Update chapter duration
-            chapterTime = durations.get(index);
-            String dspChaptTime = String.format("%2d:%02d",
-                        TimeUnit.MILLISECONDS.toMinutes(chapterTime),
-                        TimeUnit.MILLISECONDS.toSeconds(chapterTime) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(chapterTime)));
-            mChapterDuration.setText(dspChaptTime);
-
-            if (!flagPaused) {
-                mediaPlayer.start();
-                enableSeekBar();
-                flagPaused = false;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -233,7 +234,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         Bitmap bitmap = BitmapFactory.decodeFile(coverPath);
         BitmapDrawable coverBMP = new BitmapDrawable(bitmap);
         mCoverView.setBackground(coverBMP);
-
     }
 
 
@@ -268,9 +268,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                 // Update the progress depending on seek bar
                 if(fromUser){
                     mediaPlayer.seekTo(progress);
-
                 }
-
             }
 
             @Override
@@ -311,7 +309,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
     @Override
     public void onCompletion(MediaPlayer arg0) {
         if ( index < (playListPaths.size() - 1)) {
-            playChapter2(index + 1);
+            playChapter(index + 1);
             index = index + 1;
         } else {
             finish();
