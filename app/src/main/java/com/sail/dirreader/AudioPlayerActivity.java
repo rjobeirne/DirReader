@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -70,7 +69,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
 
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(this);
-
 
         TextView audioName = findViewById(R.id.audioName);
         Button viewAllMediaBtn = findViewById(R.id.viewAllMedia);
@@ -183,6 +181,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(chapterTime)));
             mChapterDuration.setText(dspChaptTime);
 
+        // Next and previous buttons
             Button skipToPrevious = findViewById(R.id.skip_to_previous);
             skipToPrevious.setVisibility(View.VISIBLE);
             Button skipToNext = findViewById(R.id.skip_to_next);
@@ -191,12 +190,11 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             if (index <= 0 ) {
                 skipToPrevious.setVisibility(View.INVISIBLE);
             }
-
             if (index >= playListPaths.size() - 1) {
                 skipToNext.setVisibility(View.INVISIBLE);
             }
 
-
+        // Start player unless paused
             if (flagPaused) {
                 mediaPlayer.pause();
             } else {
