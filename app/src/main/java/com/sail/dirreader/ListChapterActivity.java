@@ -35,6 +35,7 @@ public class ListChapterActivity extends AppCompatActivity {
     TextView mBookTitleTextView;
     View mCoverView;
     int previousPlace;
+    int chptNo =-1;
 
     BookProgress readProgress;
 
@@ -100,6 +101,8 @@ public class ListChapterActivity extends AppCompatActivity {
 
             if(nameChapter.endsWith(".mp3")) {
 
+                chptNo = chptNo + 1;
+
                 metaRetriever.setDataSource(chapterPath);
 
                 // get mp3 info
@@ -123,7 +126,7 @@ public class ListChapterActivity extends AppCompatActivity {
                 }
                 out = minutes + ":" + seconds;
 
-                if(i <= previousPlace) {
+                if(chptNo <= previousPlace) {
                     alreadyRead = true;
                 } else {
                     alreadyRead = false;
