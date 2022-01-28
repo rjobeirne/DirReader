@@ -3,15 +3,12 @@ package com.sail.dirreader;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -20,6 +17,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -46,6 +44,8 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
     View mCoverView;
     long chapterTime, currentPosition;
     TextView mBookTitleTextView;
+
+    BookProgress updateProgress;
 
 
     private Handler mHandler = new Handler();;
@@ -78,6 +78,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         mAudioName = findViewById(R.id.audioName);
         mBookTitleTextView = findViewById(R.id.book_title);
 
+        updateProgress = new BookProgress();
 
         final ToggleButton playBtn = (ToggleButton)findViewById(R.id.playBtn);
 
@@ -122,7 +123,9 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
             }
         });
 
+        File files = getFilesDir();
         createPlayList(itemPosition);
+        updateProgress.addBookProgress(files, bookTitle, itemPosition);
         makeCover(coverPath);
 
         if (playStatus .equals("Play")) {

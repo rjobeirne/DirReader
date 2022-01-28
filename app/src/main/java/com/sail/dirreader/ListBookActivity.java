@@ -10,19 +10,25 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 
 public class ListBookActivity extends AppCompatActivity {
 
@@ -77,51 +83,72 @@ public class ListBookActivity extends AppCompatActivity {
         for (int i = 0; i < books.length; i++) {
             nameBook = books[i].getName();
 
-            String intPath = path + "/" + nameBook;
-            File intDir = new File(intPath);
-            File[] intFiles = intDir.listFiles();
+                String intPath = path + "/" + nameBook;
+                File intDir = new File(intPath);
+                File[] intFiles = intDir.listFiles();
 
-            coverPath = null;
+                coverPath = null;
 
-            for (int j = 0; j < intFiles.length; j++) {
-                nameFile = intFiles[j].getName();
-                if (nameFile.endsWith(".jpg")) {
-                    coverPath = intDir + "/" + nameFile;
+                for (int j = 0; j < intFiles.length; j++) {
+                    nameFile = intFiles[j].getName();
+                    if (nameFile.endsWith(".jpg")) {
+                        coverPath = intDir + "/" + nameFile;
+                    }
+                }
+
+                for (int k = 0; k < books.length; k++) {
+                    String audFile = intFiles[k].getName();
+                    if (audFile.endsWith(".mp3")) {
+                        String filePath = intDir + "/" + audFile;
+                        metaRetriever.setDataSource(filePath);
+                        author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+                        if (author == null) {
+                            author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST);
+                        }
+                        if (author == null) {
+                            author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR);
+                        }
+                        break;
+                    }
+                }
+
+                if (books[i].isDirectory()) {
+                    BookModel bookModel = new BookModel();
+
+                    bookModel.setaTitle(nameBook);
+                    bookModel.setaCover(coverPath);
+                    bookModel.setaAuthor(author);
+
+                    tempBookList.add(bookModel);
+                    addBookData(nameBook);
+
+                    // Sort the library alphabetically
+                    Collections.sort(tempBookList, (obj1, obj2) -> obj1.getaTitle().compareToIgnoreCase(obj2.getaTitle()));
                 }
             }
-
-            for (int k = 0; k <books.length; k++) {
-                String audFile = intFiles[k].getName();
-                if (audFile.endsWith(".mp3")) {
-                    String filePath = intDir + "/" + audFile;
-                    metaRetriever.setDataSource(filePath);
-                    author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-                    if (author == null) {
-                        author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST);
-                    }
-                    if (author == null) {
-                        author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR);
-                    }
-                    break;
-                }
-            }
-
-            if(books[i].isDirectory()) {
-                BookModel bookModel = new BookModel();
-
-                bookModel.setaTitle(nameBook);
-                bookModel.setaCover(coverPath);
-                bookModel.setaAuthor(author);
-
-                tempBookList.add(bookModel);
-
-                // Sort the library alphabetically
-                Collections.sort(tempBookList, (obj1, obj2) -> obj1.getaTitle().compareToIgnoreCase(obj2.getaTitle()));
-            }
-        }
-
 
         return tempBookList;
+    }
+
+    public void addBookData(String title) {
+
+        File files = getFilesDir();
+        File newBook = new File(files, title);
+        if (!newBook.exists()) {
+
+            try {
+                FileOutputStream fos = new FileOutputStream(newBook);
+                OutputStreamWriter book = new OutputStreamWriter(fos);
+                book.write("0");
+                book.close();
+                fos.flush();
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

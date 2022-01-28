@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -32,6 +33,9 @@ public class ListChapterActivity extends AppCompatActivity {
 
     TextView mBookTitleTextView;
     View mCoverView;
+    int previousPlace;
+
+    BookProgress readProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class ListChapterActivity extends AppCompatActivity {
         coverPath = intent.getStringExtra("coverPath");
         mBookTitleTextView = findViewById(R.id.book_title);
         mCoverView = findViewById(R.id.cover_background);
+
+        readProgress = new BookProgress();
 
         getChapters(bookTitle);
 
@@ -74,9 +80,12 @@ public class ListChapterActivity extends AppCompatActivity {
         String dirPath = Environment.getExternalStorageDirectory().toString() + "/AudioBooks/" + mBookTitle;
 
         File directory = new File(dirPath);
+        File progressFiles = getFilesDir();
         File[] files = directory.listFiles();
 
         mBookTitleTextView.setText(bookTitle);
+        previousPlace = readProgress.getBookProgress(context, progressFiles, bookTitle);
+        Log.e("Previous Place :", String.valueOf(previousPlace));
 
         for (int i = 0; i < files.length; i++) {
 
@@ -128,6 +137,7 @@ public class ListChapterActivity extends AppCompatActivity {
             }
         }
         makeCover(coverPath);
+
         return tempChapterList;
     }
 
@@ -137,4 +147,5 @@ public class ListChapterActivity extends AppCompatActivity {
         BitmapDrawable coverBMP = new BitmapDrawable(bitmap);
 //        mCoverView.setBackground(coverBMP);
     }
+
 }

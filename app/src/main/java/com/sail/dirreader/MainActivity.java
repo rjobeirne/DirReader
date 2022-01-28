@@ -68,26 +68,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
-
-//    public void getBooks() {
-//        String path = Environment.getExternalStorageDirectory().toString() + "/AudioBooks";
-//        Log.d("Files", "Path: " + path);
-//        File directory = new File(path);
-//        File[] files = directory.listFiles();
-//        Log.d("Files", "Size: " + files.length);
-//
-//        listBooks = new ArrayList<>();
-//
-//        for (int i = 0; i < files.length; i++) {
-//            Log.d("Files", "FileName:" + files[i].getName());
-//            nameBook = files[i].getName();
-//
-//            listBooks.add(nameBook);
-//        }
-//        Log.e("List", String.valueOf(listBooks));
-//    }
-
-
 }
