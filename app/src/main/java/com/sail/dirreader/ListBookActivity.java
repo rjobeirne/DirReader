@@ -139,7 +139,7 @@ public class ListBookActivity extends AppCompatActivity {
             try {
                 FileOutputStream fos = new FileOutputStream(newBook);
                 OutputStreamWriter book = new OutputStreamWriter(fos);
-                book.write("0");
+                book.write("-1");
                 book.close();
                 fos.flush();
                 fos.close();

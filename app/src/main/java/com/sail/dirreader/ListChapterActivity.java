@@ -28,6 +28,7 @@ public class ListChapterActivity extends AppCompatActivity {
 
     String bookTitle, coverPath;
     String nameChapter;
+    Boolean alreadyRead = false;
     long dur, secs, mins;
     String seconds, minutes;
 
@@ -120,8 +121,13 @@ public class ListChapterActivity extends AppCompatActivity {
                 } else {
                     minutes = String.valueOf(mins);
                 }
-
                 out = minutes + ":" + seconds;
+
+                if(i <= previousPlace) {
+                    alreadyRead = true;
+                } else {
+                    alreadyRead = false;
+                }
 
                 chapterModel.setaTrackNumber(i);
                 chapterModel.setaTitle(bookTitle);
@@ -130,6 +136,7 @@ public class ListChapterActivity extends AppCompatActivity {
                 chapterModel.setaRawDuration(dur);
                 chapterModel.setaPath(chapterPath);
                 chapterModel.setaCover(coverPath);
+                chapterModel.setRead(alreadyRead);
                 tempChapterList.add(chapterModel);
 
                 // close object

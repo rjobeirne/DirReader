@@ -13,6 +13,13 @@
         android:layout_height="88dp"
         android:orientation="horizontal" >
 
+        <ImageView
+            android:id="@+id/already_read"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_beenhere_black_24dp" />
+
         <TextView
             android:id="@+id/chapter_number"
             android:layout_width="240dp"

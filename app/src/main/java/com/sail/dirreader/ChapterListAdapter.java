@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
     public  int minTime = 15 * 60 * 1000;
     Integer trackNumber, startTrack;
     Long duration;
+    Boolean alreadyRead;
     public String path, bookTitle, bookCover;
     public ArrayList<String> paths = new ArrayList<String>();
     public ArrayList<String> nameChapters = new ArrayList<String>();
@@ -62,6 +64,8 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         path = chapterDataSet.get(i).getaPath();
         bookTitle = chapterDataSet.get(i).getaTitle();
         bookCover = chapterDataSet.get(i).getaCover();
+        alreadyRead = chapterDataSet.get(i).getRead();
+
 
         mChapterName = mChapterName.substring(0, mChapterName.indexOf(".")); // remove file extension
 
@@ -70,6 +74,12 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         }
         chapterViewHolder.mChapterNoTextView.setText(mChapterName);
         chapterViewHolder.mChapterDurationTextView.setText(mChapterDuration);
+        if (alreadyRead) {
+            chapterViewHolder.mAlreadyReadView.setVisibility(View.VISIBLE);
+        } else {
+            chapterViewHolder.mAlreadyReadView.setVisibility(View.INVISIBLE);
+        }
+
 
         paths.add(path);
         nameChapters.add(mChapterName);
@@ -86,12 +96,14 @@ public class ChapterListAdapter extends RecyclerView.Adapter<ChapterListAdapter.
         Context nContext;
         ArrayList<ChapterModel> chapterList;
         public TextView mChapterNoTextView, mChapterDurationTextView;
+        public ImageView mAlreadyReadView;
 
         public ChapterViewHolder(Context context, ArrayList<ChapterModel> chapterModelList, View v) {
             super(v);
             nContext = context;
             chapterList = chapterModelList;
             mChapterNoTextView = v.findViewById(R.id.chapter_number);
+            mAlreadyReadView = v.findViewById(R.id.already_read);
             mChapterDurationTextView = v.findViewById(R.id.chapter_duration);
 
             v.setOnClickListener(this);
