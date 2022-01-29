@@ -26,7 +26,7 @@ public class ListChapterActivity extends AppCompatActivity {
     ChapterListAdapter chapterListAdapter;
     Context context;
 
-    String bookTitle, coverPath;
+    String bookTitle, coverPath, bookSubDirectory;
     String nameChapter;
     Boolean alreadyRead = false;
     long dur, secs, mins;
@@ -48,6 +48,7 @@ public class ListChapterActivity extends AppCompatActivity {
 
         bookTitle = intent.getStringExtra("bookName");
         coverPath = intent.getStringExtra("coverPath");
+        bookSubDirectory = intent.getStringExtra("bookPath");
         mBookTitleTextView = findViewById(R.id.book_title);
         mCoverView = findViewById(R.id.cover_background);
 
@@ -79,9 +80,9 @@ public class ListChapterActivity extends AppCompatActivity {
 
         final ArrayList<ChapterModel> tempChapterList = new ArrayList<>();
 
-        String dirPath = Environment.getExternalStorageDirectory().toString() + "/AudioBooks/" + mBookTitle;
+        String bookDirectory = Environment.getExternalStorageDirectory().toString() + "/AudioBooks/" + bookSubDirectory;
 
-        File directory = new File(dirPath);
+        File directory = new File(bookDirectory);
         File progressFiles = getFilesDir();
         File[] files = directory.listFiles();
 
@@ -94,7 +95,7 @@ public class ListChapterActivity extends AppCompatActivity {
             nameChapter = files[i].getName();
             String duration;
             String out;
-            String chapterPath = dirPath + "/" + nameChapter;
+            String chapterPath = bookDirectory + "/" + nameChapter;
             ChapterModel chapterModel = new ChapterModel();
             // load data file
             MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();

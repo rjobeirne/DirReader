@@ -90,10 +90,12 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             String bookName = bookList.get(itemPosition).getaTitle();
             String bookCover = bookList.get(itemPosition).getaCover();
             String bookAuthor = bookList.get(itemPosition).getaAuthor();
+            String bookDirectory = bookList.get(itemPosition).getaPath();
 
             Intent intent = new Intent(nContext, ListChapterActivity.class);
             intent.putExtra("bookName", bookName);
             intent.putExtra("coverPath", bookCover);
+            intent.putExtra("bookPath", bookDirectory);
 
             nContext.startActivity(intent);
 

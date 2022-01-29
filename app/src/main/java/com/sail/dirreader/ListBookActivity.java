@@ -1,43 +1,33 @@
 package com.sail.dirreader;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.media.MediaMetadataRetriever;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
 
 public class ListBookActivity extends AppCompatActivity {
 
     RecyclerView listBookView;
     BookListAdapter bookListAdapter;
     Context context;
-    String nameFile, coverPath, author;
+    String nameBookDirectory, coverPath, author;
 
-    String nameBook;
+    String bookDirectory, bookTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,18 +71,18 @@ public class ListBookActivity extends AppCompatActivity {
         MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
 
         for (int i = 0; i < books.length; i++) {
-            nameBook = books[i].getName();
+            bookDirectory = books[i].getName();
 
-                String intPath = path + "/" + nameBook;
+                String intPath = path + "/" + bookDirectory;
                 File intDir = new File(intPath);
                 File[] intFiles = intDir.listFiles();
 
                 coverPath = null;
 
                 for (int j = 0; j < intFiles.length; j++) {
-                    nameFile = intFiles[j].getName();
-                    if (nameFile.endsWith(".jpg")) {
-                        coverPath = intDir + "/" + nameFile;
+                    nameBookDirectory = intFiles[j].getName();
+                    if (nameBookDirectory.endsWith(".jpg")) {
+                        coverPath = intDir + "/" + nameBookDirectory;
                     }
                 }
 
@@ -101,6 +91,10 @@ public class ListBookActivity extends AppCompatActivity {
                     if (audFile.endsWith(".mp3")) {
                         String filePath = intDir + "/" + audFile;
                         metaRetriever.setDataSource(filePath);
+                        bookTitle = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
+                        if (bookTitle == null) {
+                            bookTitle = nameBookDirectory;
+                        }
                         author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
                         if (author == null) {
                             author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST);
@@ -115,12 +109,13 @@ public class ListBookActivity extends AppCompatActivity {
                 if (books[i].isDirectory()) {
                     BookModel bookModel = new BookModel();
 
-                    bookModel.setaTitle(nameBook);
+                    bookModel.setaTitle(bookTitle);
                     bookModel.setaCover(coverPath);
                     bookModel.setaAuthor(author);
+                    bookModel.setaPath(bookDirectory);
 
                     tempBookList.add(bookModel);
-                    addBookData(nameBook);
+                    addBookData(bookTitle);
 
                     // Sort the library alphabetically
                     Collections.sort(tempBookList, (obj1, obj2) -> obj1.getaTitle().compareToIgnoreCase(obj2.getaTitle()));
