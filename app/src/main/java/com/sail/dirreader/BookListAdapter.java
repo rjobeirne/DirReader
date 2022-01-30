@@ -5,18 +5,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookViewHolder> {
 
@@ -24,8 +25,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     private LayoutInflater mInflater;
     Context mContext;
     public String mBookTitle, mCoverPath, mBookAuthor;
-
-
+    public String bookName;
 
     public BookListAdapter(Context context, ArrayList<BookModel> bookModelList) {
 
@@ -64,11 +64,14 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         return bookDataSet.size();
     }
 
-    public static class BookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class BookViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnCreateContextMenuListener {
+
         Context nContext;
         public ArrayList<BookModel> bookList;
         public TextView mTextView, mAuthorView;
         public ImageView mCoverView;
+        CardView mBookCardView;
 
         public BookViewHolder(Context context, ArrayList<BookModel> bookModelList, View v) {
             super(v);
@@ -77,8 +80,9 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             mTextView = v.findViewById(R.id.book_name);
             mCoverView = v.findViewById(R.id.cover_image);
             mAuthorView = v.findViewById(R.id.book_author);
+            mBookCardView = v.findViewById(R.id.mBookCardView);
+            mBookCardView.setOnCreateContextMenuListener(this);
 
-            v.setOnClickListener(this);
         }
 
         @Override
@@ -98,6 +102,18 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             intent.putExtra("bookPath", bookDirectory);
 
             nContext.startActivity(intent);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View vMenu, ContextMenu.ContextMenuInfo menuInfo) {
+
+            int itemPosition = getAdapterPosition();
+            String bookName = bookList.get(itemPosition).getaTitle();
+            menu.setHeaderTitle(bookName);
+            menu.add(itemPosition, 121, 0, "Listen to book");
+            menu.add(itemPosition, 122, 1, "Reset book to unread");
+            menu.add(itemPosition, 123, 2, "Delete book");
+            menu.add(itemPosition, 124, 3, "Return to library");
 
         }
     }
@@ -114,7 +130,6 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 //        mCoverView.setBackground(coverBMP);
         return coverBMP;
     }
-
 
 }
 

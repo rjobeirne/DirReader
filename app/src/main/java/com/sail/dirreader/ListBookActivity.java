@@ -5,12 +5,16 @@ import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,10 +33,15 @@ public class ListBookActivity extends AppCompatActivity {
 
     String bookDirectory, bookTitle;
 
+    ArrayList<BookModel> allBookDirectories;
+    BookProgress updateProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_list);
+
+        updateProgress = new BookProgress();
 
         ImageButton goBack = findViewById(R.id.go_back_button);
         goBack.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +51,7 @@ public class ListBookActivity extends AppCompatActivity {
             }
         });
 
+
         // Find all books in the /AudioBook directory
         getBooks();
     }
@@ -49,7 +59,7 @@ public class ListBookActivity extends AppCompatActivity {
     public void getBooks() {
         context = ListBookActivity.this;
         listBookView = findViewById(R.id.book_list_view);
-        ArrayList<BookModel> allBookDirectories = getBookList(context);
+        allBookDirectories = getBookList(context);
 
         bookListAdapter = new BookListAdapter(context, allBookDirectories);
         listBookView.setLayoutManager(new LinearLayoutManager(context));
@@ -144,6 +154,53 @@ public class ListBookActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+//        String title = allBookDirectories.get(1).getaTitle();
+        switch (item.getItemId())
+        {
+            case 121:
+            displayMessage("Listen to book");
+
+            return true;
+
+            case 122:
+            resetBook(item.getGroupId(), "Resetting ");
+            return true;
+
+            case 123:
+            displayMessage("Delete book");
+            return true;
+
+            case 124:
+            displayMessage("Return");
+            return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+    }
+
+    private void displayMessage(String message) {
+
+//        Snackbar.make(findViewById(R.id.libraryView),message,Snackbar.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();;
+    }
+
+    private void resetBook(int itemPosition, String message) {
+
+        String title = allBookDirectories.get(1).getaTitle();
+//        String title = "Dummy";
+        Toast.makeText(this, message + title, Toast.LENGTH_SHORT).show();
+        updateProgress.addBookProgress(getFilesDir(), title, -1);
+    }
+
+    private void deleteBook(int itemPosition) {
+
     }
 
 }

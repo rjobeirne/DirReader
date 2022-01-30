@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -158,5 +159,6 @@ public class ListChapterActivity extends AppCompatActivity {
         BitmapDrawable coverBMP = new BitmapDrawable(bitmap);
 //        mCoverView.setBackground(coverBMP);
     }
+
 
 }
