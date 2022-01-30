@@ -192,7 +192,7 @@ public class ListBookActivity extends AppCompatActivity {
 
     private void resetBook(int itemPosition, String message) {
 
-        String title = allBookDirectories.get(1).getaTitle();
+        String title = allBookDirectories.get(itemPosition).getaTitle();
         Toast.makeText(this, message + title, Toast.LENGTH_SHORT).show();
         updateProgress.addBookProgress(getFilesDir(), title, -1);
     }

@@ -81,6 +81,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
             mCoverView = v.findViewById(R.id.cover_image);
             mAuthorView = v.findViewById(R.id.book_author);
             mBookCardView = v.findViewById(R.id.mBookCardView);
+            mBookCardView.setOnClickListener(this);
             mBookCardView.setOnCreateContextMenuListener(this);
 
         }
