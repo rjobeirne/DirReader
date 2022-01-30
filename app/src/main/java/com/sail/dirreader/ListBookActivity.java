@@ -159,16 +159,15 @@ public class ListBookActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-//        String title = allBookDirectories.get(1).getaTitle();
+        int bookNo = item.getGroupId();
         switch (item.getItemId())
         {
             case 121:
-            displayMessage("Listen to book");
-
+            playBook(bookNo, "Listen to book");
             return true;
 
             case 122:
-            resetBook(item.getGroupId(), "Resetting ");
+            resetBook(bookNo, "Resetting ");
             return true;
 
             case 123:
@@ -194,9 +193,13 @@ public class ListBookActivity extends AppCompatActivity {
     private void resetBook(int itemPosition, String message) {
 
         String title = allBookDirectories.get(1).getaTitle();
-//        String title = "Dummy";
         Toast.makeText(this, message + title, Toast.LENGTH_SHORT).show();
         updateProgress.addBookProgress(getFilesDir(), title, -1);
+    }
+
+   private void playBook(int itemPosition, String message) {
+
+        Toast.makeText(this, message , Toast.LENGTH_SHORT).show();
     }
 
     private void deleteBook(int itemPosition) {
