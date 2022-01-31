@@ -42,7 +42,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
     ArrayList<String> playListPaths;
     private TextView mChapterDuration, mCurrentPosition, mAudioName;
     View mCoverView;
-    long chapterTime, currentPosition;
+    long chapterTime, currentPosition, newPosition;
     TextView mBookTitleTextView;
 
     BookProgress updateProgress;
@@ -74,6 +74,10 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
 //        Button viewAllMediaBtn = findViewById(R.id.viewAllMedia);
         Button skipToPrevious = findViewById(R.id.skip_to_previous);
         Button skipToNext = findViewById(R.id.skip_to_next);
+        Button backFivePc = findViewById(R.id.rewind_5pc);
+        Button backFiveSecs = findViewById(R.id.rewind_5secs);
+        Button forwardFivePc = findViewById(R.id.forward_5pc);
+        Button forwardFiveSecs = findViewById(R.id.forward_5secs);
         mChapterDuration = findViewById(R.id.chapter_duration);
         mAudioName = findViewById(R.id.audioName);
         mBookTitleTextView = findViewById(R.id.book_title);
@@ -131,6 +135,34 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         if (playStatus .equals("Play")) {
             playChapter(0);
         }
+
+        backFivePc.setOnClickListener(v -> {
+            newPosition = currentPosition - chapterTime * 5 / 100;
+            if (newPosition >= 0) {
+                mediaPlayer.seekTo(convertLongToInt(newPosition));
+            }
+        });
+
+        backFiveSecs.setOnClickListener(v -> {
+                newPosition = currentPosition - 5000;
+                if (newPosition >= 0) {
+                    mediaPlayer.seekTo(convertLongToInt(newPosition));
+                }
+        });
+
+        forwardFivePc.setOnClickListener(v -> {
+            newPosition = currentPosition + chapterTime * 5 / 100;
+            if (newPosition <= chapterTime) {
+                mediaPlayer.seekTo(convertLongToInt(newPosition));
+            }
+        });
+
+        forwardFiveSecs.setOnClickListener(v -> {
+                newPosition = currentPosition + 5000;
+                if (newPosition <= chapterTime) {
+                    mediaPlayer.seekTo(convertLongToInt(newPosition));
+                }
+        });
 
         ImageButton goBack = findViewById(R.id.go_back_button);
         goBack.setOnClickListener(new View.OnClickListener() {
@@ -315,5 +347,18 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         } else {
             finish();
         }
+    }
+
+    /**
+     * Convert times from Long to int
+     * @param l
+     * @return l
+     */
+    public static int convertLongToInt(long l) {
+        if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException
+                (l + " cannot be cast to int without changing its value.");
+        }
+        return (int) l;
     }
 }
