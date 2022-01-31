@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,7 +27,7 @@ public class ListBookActivity extends AppCompatActivity {
     RecyclerView listBookView;
     BookListAdapter bookListAdapter;
     Context context;
-    String nameBookDirectory, coverPath, author;
+    String nameDirectoryFiles, coverPath, author;
 
     String bookDirectory, bookTitle;
 
@@ -88,32 +86,44 @@ public class ListBookActivity extends AppCompatActivity {
                 File intDir = new File(intPath);
                 File[] intFiles = intDir.listFiles();
 
+                bookTitle = null;
+                author = null;
+
                 coverPath = null;
 
                 for (int j = 0; j < intFiles.length; j++) {
-                    nameBookDirectory = intFiles[j].getName();
-                    if (nameBookDirectory.endsWith(".jpg")) {
-                        coverPath = intDir + "/" + nameBookDirectory;
+                    nameDirectoryFiles = intFiles[j].getName();
+                    if (nameDirectoryFiles.endsWith(".jpg")) {
+                        coverPath = intDir + "/" + nameDirectoryFiles;
+                        break;
                     }
                 }
 
                 for (int k = 0; k < books.length; k++) {
-                    String audFile = intFiles[k].getName();
-                    if (audFile.endsWith(".mp3")) {
-                        String filePath = intDir + "/" + audFile;
-                        metaRetriever.setDataSource(filePath);
-                        bookTitle = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
-                        if (bookTitle == null) {
-                            bookTitle = nameBookDirectory;
-                        }
-                        author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
-                        if (author == null) {
-                            author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST);
-                        }
-                        if (author == null) {
-                            author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR);
-                        }
+
+                    if (intDir.listFiles().length == 0) {
+                        String emptyDirectory = "Directory " + bookDirectory + " is empty";
+                        Toast.makeText(this, emptyDirectory, Toast.LENGTH_LONG).show();
+                        bookTitle = bookDirectory;
                         break;
+                    } else {
+                    String audFile = intFiles[k].getName();
+                        if (audFile.endsWith(".mp3")) {
+                            String filePath = intDir + "/" + audFile;
+                            metaRetriever.setDataSource(filePath);
+                            bookTitle = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
+                            if (bookTitle == null) {
+                                bookTitle = bookDirectory;
+                            }
+                            author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+                            if (author == null) {
+                                author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST);
+                            }
+                            if (author == null) {
+                                author = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR);
+                            }
+                            break;
+                        }
                     }
                 }
 
@@ -219,6 +229,9 @@ public class ListBookActivity extends AppCompatActivity {
    }
 
     static public boolean deleteDirectory(File path) {
+        File dummy = new File("/storage/emulated/0/AudioBooks/aaTemp/001.mp3");
+        dummy.delete();
+
         if( path.exists() ) {
               File[] files = path.listFiles();
               if (files == null) {
