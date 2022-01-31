@@ -71,7 +71,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements MediaPlaye
         mediaPlayer.setOnCompletionListener(this);
 
         TextView audioName = findViewById(R.id.audioName);
-        Button viewAllMediaBtn = findViewById(R.id.viewAllMedia);
+//        Button viewAllMediaBtn = findViewById(R.id.viewAllMedia);
         Button skipToPrevious = findViewById(R.id.skip_to_previous);
         Button skipToNext = findViewById(R.id.skip_to_next);
         mChapterDuration = findViewById(R.id.chapter_duration);

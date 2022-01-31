@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.DirReader" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="android:background">@color/cardview_dark_background</item>
+        <item name="android:background">@color/black</item>
         <item name="colorPrimary">@color/cardview_dark_background</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -10,6 +10,7 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -18,11 +19,14 @@
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:background">@color/cardview_dark_background</item>
+        <item name="android:background">@color/black</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:actionMenuTextAppearance">@color/white</item>
+
     </style>
 
 </resources>

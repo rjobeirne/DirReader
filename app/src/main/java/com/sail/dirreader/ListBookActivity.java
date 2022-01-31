@@ -1,6 +1,8 @@
 package com.sail.dirreader;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -103,7 +106,8 @@ public class ListBookActivity extends AppCompatActivity {
 
                     if (intDir.listFiles().length == 0) {
                         String emptyDirectory = "Directory " + bookDirectory + " is empty";
-                        Toast.makeText(this, emptyDirectory, Toast.LENGTH_LONG).show();
+                        customToast(emptyDirectory);
+//                        Toast.makeText(this, emptyDirectory, Toast.LENGTH_LONG).show();
                         bookTitle = bookDirectory;
                         break;
                     } else {
@@ -174,7 +178,7 @@ public class ListBookActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case 121:
-            displayMessage("Listen to book");
+            customToast("Listen to book");
             return true;
 
             case 122:
@@ -186,7 +190,7 @@ public class ListBookActivity extends AppCompatActivity {
             return true;
 
             case 124:
-            displayMessage("Return");
+//            displayMessage("Return");
             return true;
 
             default:
@@ -204,13 +208,16 @@ public class ListBookActivity extends AppCompatActivity {
     private void resetBook(int itemPosition, String message) {
 
         String title = allBookDirectories.get(itemPosition).getaTitle();
-        Toast.makeText(this, message + title, Toast.LENGTH_SHORT).show();
+        customToast(message);
+//        Toast.makeText(this, message + title, Toast.LENGTH_SHORT).show();
+
         updateProgress.addBookProgress(getFilesDir(), title, -1);
     }
 
    private void deleteBook(int itemPosition, String message) {
 
-        Toast.makeText(this, message , Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, message , Toast.LENGTH_SHORT).show();
+        customToast(message);
         String title = allBookDirectories.get(itemPosition).getaTitle();
 
         // Delete progress file
@@ -229,8 +236,6 @@ public class ListBookActivity extends AppCompatActivity {
    }
 
     static public boolean deleteDirectory(File path) {
-        File dummy = new File("/storage/emulated/0/AudioBooks/aaTemp/001.mp3");
-        dummy.delete();
 
         if( path.exists() ) {
               File[] files = path.listFiles();
@@ -247,6 +252,18 @@ public class ListBookActivity extends AppCompatActivity {
               }
         }
         return( path.delete() );
+    }
+
+    @SuppressLint("ResourceType")
+    public void customToast(String message) {
+        Toast ToastMessage = Toast.makeText(this,message, Toast.LENGTH_SHORT);
+        View toastView = ToastMessage.getView();
+        toastView.setBackgroundResource(R.layout.toast_background_color);
+        TextView messageText = toastView.findViewById(android.R.id.message);
+        messageText.setTextColor(Color.parseColor("#000000"));
+        messageText.setBackgroundColor(Color.parseColor("#787878"));
+        ToastMessage.show();
+
     }
 
 }
