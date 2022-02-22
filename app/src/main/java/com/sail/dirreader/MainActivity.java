@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     Context context;
 
     ListBookActivity theList;
+    
+    // Put lots of comments here
 
     // UI widgets
     private ImageButton listBooksBtn;
